@@ -6,11 +6,11 @@
 return [
     'discord' => [
         // Replace these with your actual Discord application credentials
-        'client_id' => 'YOUR_DISCORD_CLIENT_ID',
-        'client_secret' => 'YOUR_DISCORD_CLIENT_SECRET',
+        'client_id' => '1405261034759000116',
+        'client_secret' => 'Y3u9cKEm4YGhETO18JYRN0hLmhxOEDVB',
         
         // Update this with your actual domain
-        'redirect_uri' => 'http://localhost/siteweb/discord_callback.php',
+        'redirect_uri' => 'https://las-vegas.zeabur.app/siteweb/discord_callback.php',
         
         // OAuth scopes
         'scope' => 'identify'
@@ -27,3 +27,4 @@ return [
     ]
 ];
 ?>
+
