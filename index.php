@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -96,8 +99,6 @@
                 </p>
                 
                 <?php
-                session_start();
-                
                 // Display messages
                 if (isset($_SESSION['logout_message'])) {
                     echo '<div class="message success">' . $_SESSION['logout_message'] . '</div>';
