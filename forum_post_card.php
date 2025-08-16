@@ -71,8 +71,32 @@
             <span class="text-muted"><?php echo isset($post['comments']) ? count($post['comments']) : 0; ?> comments</span>
         </div>
         
-        <a href="view_post.php?id=<?php echo $post_id; ?>" class="view-post-btn">
-            <i class="fas fa-eye me-1"></i>View Post
-        </a>
+        <div class="d-flex gap-2">
+            <?php 
+            // Check if user is admin and post is pending
+            $is_admin = false;
+            if (isset($_SESSION['discord_user']) && isset($config['admins'])) {
+                $is_admin = in_array($_SESSION['discord_user']['id'], $config['admins']);
+            }
+            
+            if ($is_admin && $post['status'] === 'pending'): ?>
+                <a href="admin_forum_action.php?action=approve&id=<?php echo $post_id; ?>" 
+                   class="btn btn-sm btn-success" 
+                   onclick="return confirm('Are you sure you want to approve this post?')"
+                   title="Approve Post">
+                    <i class="fas fa-check"></i>
+                </a>
+                <a href="admin_forum_action.php?action=reject&id=<?php echo $post_id; ?>" 
+                   class="btn btn-sm btn-danger" 
+                   onclick="return confirm('Are you sure you want to reject this post?')"
+                   title="Reject Post">
+                    <i class="fas fa-times"></i>
+                </a>
+            <?php endif; ?>
+            
+            <a href="view_post.php?id=<?php echo $post_id; ?>" class="view-post-btn">
+                <i class="fas fa-eye me-1"></i>View Post
+            </a>
+        </div>
     </div>
 </div>
