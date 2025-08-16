@@ -375,6 +375,17 @@ unset($_SESSION['comment_form_errors']);
 <body>
     <div class="container">
         <div class="post-container">
+            <!-- Debug Info (temporary) -->
+            <?php if ($is_logged_in): ?>
+                <div class="alert alert-info" style="background: rgba(0, 123, 255, 0.1); border: 1px solid rgba(0, 123, 255, 0.2); color: #17a2b8;">
+                    <strong>Debug Info:</strong><br>
+                    User ID: <?php echo htmlspecialchars($user['id']); ?><br>
+                    Is Admin: <?php echo $is_admin ? 'YES' : 'NO'; ?><br>
+                    Post Status: <?php echo htmlspecialchars($post['status']); ?><br>
+                    Should Show Dropdown: <?php echo ($post['status'] === 'pending' && $is_admin) ? 'YES' : 'NO'; ?>
+                </div>
+            <?php endif; ?>
+
             <!-- Post Header -->
             <div class="post-header">
                 <h1 class="post-title"><?php echo htmlspecialchars($post['title']); ?></h1>
