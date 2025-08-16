@@ -2304,6 +2304,121 @@ html {
     display: none;
 }
 
+/* Search Bar Styles */
+.search-container {
+    margin-bottom: 2rem;
+}
+
+.search-container .input-group {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-container .input-group-text {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(47, 0, 255, 0.2);
+    color: var(--primary-color);
+    border-right: none;
+}
+
+.search-container .form-control {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(47, 0, 255, 0.2);
+    color: #e0e0e0;
+    border-left: none;
+    border-right: none;
+}
+
+.search-container .form-control:focus {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: var(--primary-color);
+    box-shadow: none;
+    color: #e0e0e0;
+}
+
+.search-container .form-control::placeholder {
+    color: #aaa;
+}
+
+.search-container .btn-outline-secondary {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(47, 0, 255, 0.2);
+    color: #aaa;
+    border-left: none;
+    transition: all 0.3s ease;
+}
+
+.search-container .btn-outline-secondary:hover {
+    background: rgba(220, 53, 69, 0.2);
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.search-container .btn-outline-secondary:focus {
+    box-shadow: none;
+}
+
+.search-container small {
+    display: block;
+    text-align: center;
+    margin-top: 0.5rem;
+    color: #aaa;
+    font-size: 0.85rem;
+}
+
+/* Search Results Styles */
+.no-search-results {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(47, 0, 255, 0.2);
+    border-radius: 15px;
+    padding: 3rem 2rem;
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.no-search-results i {
+    color: #666;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.no-search-results h5 {
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.no-search-results p {
+    color: #aaa;
+    margin: 0;
+}
+
+/* Search Input Focus Animation */
+.search-container .form-control:focus {
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
+.search-container .input-group:focus-within .input-group-text {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: rgba(47, 0, 255, 0.1);
+}
+
+.search-container .input-group:focus-within .btn-outline-secondary {
+    border-color: var(--primary-color);
+}
+
+/* Responsive Search Styles */
+@media (max-width: 768px) {
+    .search-container .input-group {
+        max-width: 100%;
+    }
+    
+    .search-container .form-control {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+}
+
 /* Responsive Forum Styles */
 @media (max-width: 768px) {
     .forum-post-row {
