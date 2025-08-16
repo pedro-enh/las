@@ -183,8 +183,8 @@ function sendDiscordNotification($application, $decision, $admin_message, $confi
     
     if ($decision === 'accept') {
         $embed['fields'][] = [
-            'name' => '🎮 Next Steps',
-            'value' => "Welcome to Las Vegas Role Play! You can now connect to the server:\n**IP:** 94.23.168.153:1285",
+            'name' => '🔊 Next Steps',
+            'value' => "Come to Whitelist Vocal <#1389417508494377160>",
             'inline' => false
         ];
     }
