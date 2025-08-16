@@ -275,7 +275,7 @@ session_start();
                             <p class="text-muted mb-4">Please login with your Discord account to continue with the whitelist application.</p>
                             <a href="discord_auth.php" class="btn hero-btn w-100">
                                 <i class="fab fa-discord me-2"></i>
-                                Login with Discord
+                                Demand Whitelist
                             </a>
                         </div>
                       </div>';
@@ -336,5 +336,6 @@ session_start();
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
