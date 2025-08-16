@@ -11,7 +11,8 @@ $redirect_uri = $config['discord']['redirect_uri'];
 
 // Check if this was an admin login attempt
 $is_admin_login = isset($_SESSION['admin_login']) && $_SESSION['admin_login'] === true;
-$error_redirect = $is_admin_login ? 'admin.php' : 'index.php';
+$is_forum_login = isset($_SESSION['forum_login']) && $_SESSION['forum_login'] === true;
+$error_redirect = $is_admin_login ? 'admin.php' : ($is_forum_login ? 'forum.php' : 'index.php');
 
 // Check if we have the authorization code and state
 if (!isset($_GET['code']) || !isset($_GET['state'])) {
@@ -100,11 +101,18 @@ unset($_SESSION['oauth_state']);
 
 // Check if this was an admin login
 $redirect_to_admin = isset($_SESSION['admin_login']) && $_SESSION['admin_login'] === true;
+$redirect_to_forum = isset($_SESSION['forum_login']) && $_SESSION['forum_login'] === true;
+
 if ($redirect_to_admin) {
     // Clean up admin login flag
     unset($_SESSION['admin_login']);
     // Redirect to admin panel
     header('Location: admin.php');
+} elseif ($redirect_to_forum) {
+    // Clean up forum login flag
+    unset($_SESSION['forum_login']);
+    // Redirect to forum
+    header('Location: forum.php');
 } else {
     // Redirect back to main page
     header('Location: index.php#whitelist');
