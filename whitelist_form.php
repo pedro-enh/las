@@ -140,8 +140,8 @@ $user = $_SESSION['discord_user'];
         <div class="form-group">
             <label for="character_story">8. Write your character's backstory *</label>
             <textarea class="form-control" id="character_story" name="character_story" rows="8" required 
-                      placeholder="Write a detailed story about your character (must be more than 5 lines)..."><?php echo htmlspecialchars($form_data['character_story'] ?? ''); ?></textarea>
-            <small class="form-text">The story must be more than 5 lines and contain realistic details about your character</small>
+                      placeholder="Write a detailed story about your character (minimum 250 characters)..."><?php echo htmlspecialchars($form_data['character_story'] ?? ''); ?></textarea>
+            <small class="form-text">Tell us about your character's background, personality, and story (minimum 250 characters)</small>
             <div id="story-counter" class="character-counter">0 characters</div>
         </div>
 
