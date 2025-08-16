@@ -6,6 +6,12 @@ require_once 'config.php';
 $is_logged_in = isset($_SESSION['discord_user']);
 $user = $is_logged_in ? $_SESSION['discord_user'] : null;
 
+// Check if user is admin
+$is_admin = false;
+if ($is_logged_in && isset($config['admins'])) {
+    $is_admin = in_array($user['id'], $config['admins']);
+}
+
 // Load forum posts
 $posts_file = 'data/forum_posts.json';
 $posts = [];
