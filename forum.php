@@ -218,12 +218,6 @@ uasort($posts, function($a, $b) {
                 </div>
             </div>
 
-            <div class="text-center mt-4">
-                <a href="index.php" class="btn btn-outline-primary">
-                    <i class="fas fa-home me-2"></i>
-                    Back to Home
-                </a>
-            </div>
             </div>
         </div>
     </section>
