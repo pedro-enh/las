@@ -97,6 +97,21 @@ uasort($posts, function($a, $b) {
             
             <div class="forum-container" style="background: rgba(0, 0, 0, 0.8); border: 1px solid rgba(0, 47, 255, 0.2); border-radius: 20px; padding: 2rem; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
 
+            <!-- Search Bar -->
+            <div class="search-container mb-4">
+                <div class="input-group">
+                    <span class="input-group-text" style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(47, 0, 255, 0.2); color: var(--primary-color);">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" class="form-control" id="forumSearch" placeholder="Search by player name or forum title..." 
+                           style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(47, 0, 255, 0.2); color: #e0e0e0;">
+                    <button class="btn btn-outline-secondary" type="button" id="clearSearch" style="border-color: rgba(47, 0, 255, 0.2); color: #aaa;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <small class="text-muted mt-2 d-block">Search in titles, player names, or suspect names</small>
+            </div>
+
             <!-- Forum Tabs -->
             <ul class="nav nav-tabs forum-tabs mb-4" id="forumTabs" role="tablist" style="border-bottom: 1px solid rgba(47, 0, 255, 0.2);">
                 <li class="nav-item" role="presentation">
@@ -247,5 +262,105 @@ uasort($posts, function($a, $b) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('forumSearch');
+            const clearButton = document.getElementById('clearSearch');
+            
+            // Search functionality
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const allPosts = document.querySelectorAll('.forum-post-row');
+                let visibleCount = 0;
+                
+                allPosts.forEach(post => {
+                    const title = post.querySelector('.post-title')?.textContent.toLowerCase() || '';
+                    const playerName = post.querySelector('.post-meta')?.textContent.toLowerCase() || '';
+                    const content = post.textContent.toLowerCase();
+                    
+                    const matches = title.includes(searchTerm) || 
+                                  playerName.includes(searchTerm) || 
+                                  content.includes(searchTerm);
+                    
+                    if (searchTerm === '' || matches) {
+                        post.style.display = '';
+                        visibleCount++;
+                    } else {
+                        post.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide no results message
+                updateNoResultsMessage(searchTerm, visibleCount);
+            }
+            
+            function updateNoResultsMessage(searchTerm, visibleCount) {
+                // Remove existing no results message
+                const existingMessage = document.querySelector('.no-search-results');
+                if (existingMessage) {
+                    existingMessage.remove();
+                }
+                
+                // Add no results message if needed
+                if (searchTerm !== '' && visibleCount === 0) {
+                    const activeTab = document.querySelector('.tab-pane.active');
+                    if (activeTab) {
+                        const noResultsDiv = document.createElement('div');
+                        noResultsDiv.className = 'no-search-results text-center py-5';
+                        noResultsDiv.innerHTML = `
+                            <i class="fas fa-search fa-3x mb-3" style="color: #666;"></i>
+                            <h5 class="text-muted">No results found</h5>
+                            <p class="text-muted">No posts match your search for "${searchTerm}"</p>
+                        `;
+                        activeTab.appendChild(noResultsDiv);
+                    }
+                }
+            }
+            
+            // Clear search
+            function clearSearch() {
+                searchInput.value = '';
+                performSearch();
+                searchInput.focus();
+            }
+            
+            // Event listeners
+            searchInput.addEventListener('input', performSearch);
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Escape') {
+                    clearSearch();
+                }
+            });
+            
+            clearButton.addEventListener('click', clearSearch);
+            
+            // Re-run search when switching tabs
+            document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
+                tab.addEventListener('shown.bs.tab', function() {
+                    setTimeout(performSearch, 100); // Small delay to ensure tab content is loaded
+                });
+            });
+            
+            // Focus search input with Ctrl+F
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'f') {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+            });
+            
+            // Add search input styling on focus
+            searchInput.addEventListener('focus', function() {
+                this.style.borderColor = 'var(--primary-color)';
+                this.style.boxShadow = '0 0 0 0.2rem rgba(47, 0, 255, 0.25)';
+            });
+            
+            searchInput.addEventListener('blur', function() {
+                this.style.borderColor = 'rgba(47, 0, 255, 0.2)';
+                this.style.boxShadow = 'none';
+            });
+        });
+    </script>
 </body>
 </html>
