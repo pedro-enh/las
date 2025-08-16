@@ -73,10 +73,7 @@ if (empty($content)) {
     $errors[] = 'Detailed description is required';
 }
 
-// Check if content has at least 100 characters
-if (strlen($content) < 100) {
-    $errors[] = 'Detailed description must be at least 100 characters long';
-}
+// Content length validation removed - allow any length
 
 // Validate proofs URL if provided
 if (!empty($proofs) && !filter_var($proofs, FILTER_VALIDATE_URL)) {
