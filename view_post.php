@@ -34,8 +34,8 @@ $user = $is_logged_in ? $_SESSION['discord_user'] : null;
 
 // Check if user is admin
 $is_admin = false;
-if ($is_logged_in && isset($config['admin_ids'])) {
-    $is_admin = in_array($user['id'], $config['admin_ids']);
+if ($is_logged_in && isset($config['admins'])) {
+    $is_admin = in_array($user['id'], $config['admins']);
 }
 
 // Get form data from session if available (for error recovery)
@@ -505,8 +505,8 @@ unset($_SESSION['comment_form_errors']);
                                         <?php 
                                         // Check if commenter is admin
                                         $is_commenter_admin = false;
-                                        if (isset($config['admin_ids']) && isset($comment['discord_user']['id'])) {
-                                            $is_commenter_admin = in_array($comment['discord_user']['id'], $config['admin_ids']);
+                                        if (isset($config['admins']) && isset($comment['discord_user']['id'])) {
+                                            $is_commenter_admin = in_array($comment['discord_user']['id'], $config['admins']);
                                         }
                                         
                                         if ($is_commenter_admin): ?>
