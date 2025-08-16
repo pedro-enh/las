@@ -58,7 +58,19 @@
     </div>
 
     <div class="post-content">
-        <p><?php echo nl2br(htmlspecialchars(substr($post['content'], 0, 200))); ?><?php echo strlen($post['content']) > 200 ? '...' : ''; ?></p>
+        <p><?php 
+        // Limit repetitive characters and truncate content
+        $content = $post['content'];
+        
+        // Remove excessive repetitive characters (more than 3 in a row)
+        $content = preg_replace('/(.)\1{3,}/', '$1$1$1', $content);
+        
+        // Truncate to 200 characters
+        $truncated_content = substr($content, 0, 200);
+        
+        echo nl2br(htmlspecialchars($truncated_content)); 
+        echo strlen($content) > 200 ? '...' : ''; 
+        ?></p>
     </div>
 
     <div class="post-details">
