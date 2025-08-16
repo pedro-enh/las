@@ -255,6 +255,24 @@ unset($_SESSION['comment_form_errors']);
             margin-bottom: 1rem;
         }
 
+        .admin-command-comment {
+            background: rgba(220, 53, 69, 0.1);
+            border: 2px solid rgba(220, 53, 69, 0.3);
+            box-shadow: 0 0 15px rgba(220, 53, 69, 0.2);
+        }
+
+        .admin-command-comment .comment-header {
+            border-bottom: 1px solid rgba(220, 53, 69, 0.2);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-command-comment .admin-command-icon {
+            color: #dc3545;
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+        }
+
         .comment-header {
             display: flex;
             align-items: center;
@@ -375,16 +393,6 @@ unset($_SESSION['comment_form_errors']);
 <body>
     <div class="container">
         <div class="post-container">
-            <!-- Debug Info (temporary) -->
-            <?php if ($is_logged_in): ?>
-                <div class="alert alert-info" style="background: rgba(0, 123, 255, 0.1); border: 1px solid rgba(0, 123, 255, 0.2); color: #17a2b8;">
-                    <strong>Debug Info:</strong><br>
-                    User ID: <?php echo htmlspecialchars($user['id']); ?><br>
-                    Is Admin: <?php echo $is_admin ? 'YES' : 'NO'; ?><br>
-                    Post Status: <?php echo htmlspecialchars($post['status']); ?><br>
-                    Should Show Dropdown: <?php echo ($post['status'] === 'pending' && $is_admin) ? 'YES' : 'NO'; ?>
-                </div>
-            <?php endif; ?>
 
             <!-- Post Header -->
             <div class="post-header">
@@ -521,7 +529,7 @@ unset($_SESSION['comment_form_errors']);
                 <!-- Display Comments -->
                 <?php if (!empty($post['comments'])): ?>
                     <?php foreach ($post['comments'] as $comment): ?>
-                        <div class="comment">
+                        <div class="comment <?php echo isset($comment['is_admin_command']) && $comment['is_admin_command'] ? 'admin-command-comment' : ''; ?>">
                             <div class="comment-header">
                                 <?php if (isset($comment['discord_user']['avatar']) && $comment['discord_user']['avatar']): ?>
                                     <img src="https://cdn.discordapp.com/avatars/<?php echo $comment['discord_user']['id']; ?>/<?php echo $comment['discord_user']['avatar']; ?>.png?size=64" 
@@ -553,6 +561,9 @@ unset($_SESSION['comment_form_errors']);
                             </div>
                             
                             <div style="color: #e0e0e0; line-height: 1.5;">
+                                <?php if (isset($comment['is_admin_command']) && $comment['is_admin_command']): ?>
+                                    <i class="fas fa-gavel admin-command-icon"></i>
+                                <?php endif; ?>
                                 <?php echo nl2br(htmlspecialchars($comment['content'])); ?>
                             </div>
                         </div>
@@ -566,6 +577,14 @@ unset($_SESSION['comment_form_errors']);
 
                 <!-- Comment Form -->
                 <?php if ($post['status'] === 'pending' && $is_logged_in): ?>
+                    <!-- Success Messages -->
+                    <?php if (isset($_SESSION['comment_success'])): ?>
+                        <div class="alert alert-success">
+                            <h6><i class="fas fa-check-circle me-2"></i><?php echo htmlspecialchars($_SESSION['comment_success']); ?></h6>
+                        </div>
+                        <?php unset($_SESSION['comment_success']); ?>
+                    <?php endif; ?>
+
                     <!-- Error Messages -->
                     <?php if (!empty($form_errors)): ?>
                         <div class="alert alert-danger">
