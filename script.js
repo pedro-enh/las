@@ -3,24 +3,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get all navigation links
     const navLinks = document.querySelectorAll('.nav-link');
     
-    // Add click event listeners for smooth scrolling
+    // Add click event listeners for smooth scrolling (only for anchor links)
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
             const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
             
-            if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            // Only prevent default for anchor links (starting with #)
+            if (targetId.startsWith('#')) {
+                e.preventDefault();
+                
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                
+                // Update active nav link
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+                this.classList.add('active');
             }
-            
-            // Update active nav link
-            navLinks.forEach(navLink => navLink.classList.remove('active'));
-            this.classList.add('active');
+            // For external links (like forum.php), let the default behavior happen
         });
     });
 
