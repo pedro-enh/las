@@ -34,7 +34,11 @@ if (!in_array($user['id'], $config['admins'])) {
                     <i class="fas fa-shield-alt error-icon"></i>
                     <h1 class="error-title">Access Denied</h1>
                     <p class="error-message">You don't have permission to access the admin panel.</p>
-                    <a href="index.php" class="btn btn-primary">
+                    <a href="discord_auth.php?admin=1" class="btn btn-primary me-2">
+                        <i class="fab fa-discord me-2"></i>
+                        Login with Different Account
+                    </a>
+                    <a href="index.php" class="btn btn-outline-primary">
                         <i class="fas fa-home me-2"></i>
                         Back to Home
                     </a>
