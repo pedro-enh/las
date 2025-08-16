@@ -1008,7 +1008,7 @@ html {
 }
 
 .status-label {
-    color: #aaa;
+    color: #e0e0e0;
     font-size: 0.9rem;
     margin-bottom: 0.3rem;
 }
@@ -1252,7 +1252,7 @@ html {
 }
 
 .media-info p {
-    color: #aaa;
+    color: #e0e0e0;
     margin: 0;
     font-size: 0.9rem;
 }
@@ -1290,7 +1290,7 @@ html {
 }
 
 .viewer-count {
-    color: #aaa;
+    color: #e0e0e0;
     font-size: 0.8rem;
     margin-left: auto;
 }
@@ -1355,7 +1355,7 @@ html {
 }
 
 .form-control::placeholder {
-    color: #aaa;
+    color: #e0e0e0;
 }
 
 .btn-primary {
@@ -1437,7 +1437,7 @@ html {
 }
 
 .stat-info p {
-    color: #aaa;
+    color: #e0e0e0;
     margin: 0;
     font-size: 1.1rem;
     text-transform: uppercase;
@@ -1468,7 +1468,7 @@ html {
 
 .no-applications i {
     font-size: 4rem;
-    color: #666;
+    color: #e0e0e0;
     margin-bottom: 1rem;
 }
 
@@ -1478,7 +1478,7 @@ html {
 }
 
 .no-applications p {
-    color: #aaa;
+    color: #e0e0e0;
     margin: 0;
 }
 
@@ -1551,7 +1551,7 @@ html {
 }
 
 .submission-time {
-    color: #666;
+    color: #e0e0e0;
     font-size: 0.8rem;
     margin: 0;
 }
