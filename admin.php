@@ -340,7 +340,7 @@ function sendDiscordNotification($application, $decision, $admin_message, $confi
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="stat-card">
+                    <div class="stat-card clickable-card" onclick="showAcceptedApplications()">
                         <div class="stat-icon">
                             <i class="fas fa-check-circle"></i>
                         </div>
@@ -351,7 +351,7 @@ function sendDiscordNotification($application, $decision, $admin_message, $confi
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="stat-card">
+                    <div class="stat-card clickable-card" onclick="showRejectedApplications()">
                         <div class="stat-icon">
                             <i class="fas fa-times-circle"></i>
                         </div>
@@ -490,6 +490,23 @@ function sendDiscordNotification($application, $decision, $admin_message, $confi
         </div>
     </div>
 
+    <!-- Modal for Accepted/Rejected Applications -->
+    <div class="modal fade" id="applicationsModal" tabindex="-1" aria-labelledby="applicationsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title text-white" id="applicationsModalLabel">Applications</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalApplicationsList">
+                        <!-- Applications will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Add confirmation for actions
@@ -503,6 +520,160 @@ function sendDiscordNotification($application, $decision, $admin_message, $confi
                 }
             });
         });
+
+        // Function to show accepted applications
+        function showAcceptedApplications() {
+            loadApplicationsModal('accept', 'Accepted Today');
+        }
+
+        // Function to show rejected applications
+        function showRejectedApplications() {
+            loadApplicationsModal('reject', 'Rejected Today');
+        }
+
+        // Function to load applications in modal
+        function loadApplicationsModal(status, title) {
+            document.getElementById('applicationsModalLabel').textContent = title;
+            
+            // Show loading
+            document.getElementById('modalApplicationsList').innerHTML = `
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2 text-white">Loading applications...</p>
+                </div>
+            `;
+            
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('applicationsModal'));
+            modal.show();
+            
+            // Fetch applications data
+            fetch(`admin_applications_data.php?status=${status}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayApplicationsInModal(data, status);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('modalApplicationsList').innerHTML = `
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Error loading applications. Please try again.
+                        </div>
+                    `;
+                });
+        }
+
+        // Function to display applications in modal
+        function displayApplicationsInModal(applications, status) {
+            const container = document.getElementById('modalApplicationsList');
+            
+            if (applications.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-white">
+                        <i class="fas fa-inbox fa-3x mb-3 text-muted"></i>
+                        <h4>No ${status === 'accept' ? 'Accepted' : 'Rejected'} Applications Today</h4>
+                        <p class="text-muted">No applications have been ${status === 'accept' ? 'accepted' : 'rejected'} today.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            applications.forEach(app => {
+                const statusClass = status === 'accept' ? 'success' : 'danger';
+                const statusIcon = status === 'accept' ? 'check-circle' : 'times-circle';
+                const statusText = status === 'accept' ? 'ACCEPTED' : 'REJECTED';
+                
+                html += `
+                    <div class="application-card mb-4">
+                        <div class="application-header">
+                            <div class="user-info">
+                                ${app.discord_user.avatar ? 
+                                    `<img src="https://cdn.discordapp.com/avatars/${app.discord_user.id}/${app.discord_user.avatar}.png?size=64" alt="Avatar" class="user-avatar">` :
+                                    `<div class="user-avatar-placeholder"><i class="fab fa-discord"></i></div>`
+                                }
+                                <div class="user-details">
+                                    <h4>${app.discord_user.global_name || app.discord_user.username}</h4>
+                                    <p class="discord-id">ID: ${app.discord_user.id}</p>
+                                    <p class="submission-time">
+                                        <i class="fas fa-clock me-1"></i>
+                                        Submitted: ${new Date(app.timestamp).toLocaleString()}
+                                    </p>
+                                    <p class="decision-time">
+                                        <i class="fas fa-${statusIcon} me-1"></i>
+                                        ${statusText}: ${new Date(app.admin_decision.timestamp).toLocaleString()}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="application-status">
+                                <span class="status-badge status-${statusClass}">
+                                    <i class="fas fa-${statusIcon} me-1"></i>
+                                    ${statusText}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="application-details">
+                            <div class="detail-section">
+                                <h5><i class="fas fa-user me-2"></i>Personal Information</h5>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <strong>Real Name:</strong> ${app.application_data.real_name}
+                                    </div>
+                                    <div class="detail-item">
+                                        <strong>Age:</strong> ${app.application_data.real_age} years
+                                    </div>
+                                    <div class="detail-item">
+                                        <strong>Nationality:</strong> ${app.application_data.nationality}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <h5><i class="fas fa-mask me-2"></i>Character Information</h5>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <strong>Character Name:</strong> ${app.application_data.character_name}
+                                    </div>
+                                    <div class="detail-item">
+                                        <strong>Character Age:</strong> ${app.application_data.character_age} years
+                                    </div>
+                                    <div class="detail-item">
+                                        <strong>Character Type:</strong> ${app.application_data.character_type}
+                                    </div>
+                                    <div class="detail-item">
+                                        <strong>RP Experience:</strong> ${app.application_data.rp_experience}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <h5><i class="fas fa-user-shield me-2"></i>Admin Decision</h5>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <strong>Admin:</strong> ${app.admin_decision.admin_name}
+                                    </div>
+                                    <div class="detail-item">
+                                        <strong>Decision Time:</strong> ${new Date(app.admin_decision.timestamp).toLocaleString()}
+                                    </div>
+                                    ${app.admin_decision.message ? 
+                                        `<div class="detail-item full-width">
+                                            <strong>Admin Message:</strong><br>
+                                            <div class="admin-message">${app.admin_decision.message}</div>
+                                        </div>` : ''
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
 
         // Auto-refresh every 30 seconds
         setTimeout(() => {
