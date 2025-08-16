@@ -35,7 +35,7 @@ session_start();
                         <a class="nav-link" href="#server-status"><i class="fas fa-server me-1"></i> Server Status</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="forum.php"><i class="fas fa-comments me-1"></i> Forum</a>
+                        <a class="nav-link" href="https://las-vegas.zeabur.app/forum.php"><i class="fas fa-comments me-1"></i> Forum</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#whitelist"><i class="fas fa-user-plus me-1"></i> Whitelist</a>
@@ -313,7 +313,7 @@ session_start();
                     <h6 class="footer-title">Community</h6>
                     <ul class="footer-links">
                         <li><a href="https://discord.gg/qGMCBgQFMt" target="_blank">Discord</a></li>
-                        <li><a href="#">Forums</a></li>
+                        <li><a href="https://las-vegas.zeabur.app/forum.php">Forums</a></li>
                         <li><a href="#">Rules</a></li>
                         <li><a href="https://discord.gg/qGMCBgQFMt">Support</a></li>
                     </ul>
