@@ -400,21 +400,43 @@ unset($_SESSION['comment_form_errors']);
                         </div>
                     </div>
                     
-                    <div class="post-status status-<?php echo $post['status']; ?>">
-                        <?php 
-                        switch($post['status']) {
-                            case 'pending':
-                                echo '<i class="fas fa-clock me-1"></i>Pending Review';
-                                break;
-                            case 'approved':
-                                echo '<i class="fas fa-check me-1"></i>Approved';
-                                break;
-                            case 'rejected':
-                                echo '<i class="fas fa-times me-1"></i>Rejected';
-                                break;
-                        }
-                        ?>
-                    </div>
+                    <?php if ($post['status'] === 'pending' && $is_admin): ?>
+                        <div class="dropdown">
+                            <button class="btn post-status status-pending dropdown-toggle" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-clock me-1"></i>PENDING REVIEW
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="statusDropdown">
+                                <li>
+                                    <a class="dropdown-item text-success" href="admin_forum_action.php?action=approve&id=<?php echo $post_id; ?>" 
+                                       onclick="return confirm('Are you sure you want to approve this post?')">
+                                        <i class="fas fa-check me-2"></i>Approve
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="admin_forum_action.php?action=reject&id=<?php echo $post_id; ?>" 
+                                       onclick="return confirm('Are you sure you want to reject this post?')">
+                                        <i class="fas fa-times me-2"></i>Reject
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    <?php else: ?>
+                        <div class="post-status status-<?php echo $post['status']; ?>">
+                            <?php 
+                            switch($post['status']) {
+                                case 'pending':
+                                    echo '<i class="fas fa-clock me-1"></i>Pending Review';
+                                    break;
+                                case 'approved':
+                                    echo '<i class="fas fa-check me-1"></i>Approved';
+                                    break;
+                                case 'rejected':
+                                    echo '<i class="fas fa-times me-1"></i>Rejected';
+                                    break;
+                            }
+                            ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
 
