@@ -1376,3 +1376,388 @@ html {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(47, 0, 255, 0.3);
 }
+
+/* Admin Panel Styles */
+.admin-panel {
+    padding-top: 120px;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, var(--dark-bg), var(--darker-bg));
+}
+
+.admin-header {
+    margin-bottom: 3rem;
+}
+
+.admin-title {
+    color: var(--primary-color);
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 0 0 20px rgba(47, 0, 255, 0.5);
+    margin-bottom: 1rem;
+}
+
+.admin-subtitle {
+    color: #e0e0e0;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+/* Statistics Cards */
+.stat-card {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(47, 0, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    text-align: center;
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 15px 40px rgba(47, 0, 255, 0.2);
+}
+
+.stat-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 10px rgba(47, 0, 255, 0.3));
+}
+
+.stat-info h3 {
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(47, 0, 255, 0.3);
+}
+
+.stat-info p {
+    color: #aaa;
+    margin: 0;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Applications Section */
+.applications-section {
+    margin-top: 3rem;
+}
+
+.section-title {
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(47, 0, 255, 0.3);
+}
+
+.no-applications {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(47, 0, 255, 0.2);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.no-applications i {
+    font-size: 4rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.no-applications h3 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.no-applications p {
+    color: #aaa;
+    margin: 0;
+}
+
+/* Application Cards */
+.applications-grid {
+    display: grid;
+    gap: 2rem;
+}
+
+.application-card {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(47, 0, 255, 0.2);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.application-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 15px 40px rgba(47, 0, 255, 0.2);
+}
+
+.application-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(47, 0, 255, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+}
+
+.user-avatar-placeholder {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+}
+
+.user-details h4 {
+    color: #fff;
+    margin-bottom: 0.25rem;
+    font-size: 1.2rem;
+}
+
+.discord-id {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    font-family: monospace;
+}
+
+.submission-time {
+    color: #666;
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+.application-status {
+    text-align: right;
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.status-pending {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid #ffc107;
+}
+
+.status-accepted {
+    background: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+    border: 1px solid #28a745;
+}
+
+.status-rejected {
+    background: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+/* Application Details */
+.application-details {
+    padding: 1.5rem;
+}
+
+.detail-section {
+    margin-bottom: 2rem;
+}
+
+.detail-section h5 {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 5px rgba(47, 0, 255, 0.3);
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.detail-item {
+    color: #e0e0e0;
+    padding: 0.75rem;
+    background: rgba(47, 0, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(47, 0, 255, 0.2);
+}
+
+.detail-item strong {
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.backstory-content {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(47, 0, 255, 0.2);
+    border-radius: 10px;
+    padding: 1rem;
+    color: #e0e0e0;
+    line-height: 1.6;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.backstory-stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.backstory-stats .stat {
+    background: rgba(47, 0, 255, 0.1);
+    border: 1px solid rgba(47, 0, 255, 0.2);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Application Actions */
+.application-actions {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(47, 0, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.admin-message-section {
+    margin-bottom: 1.5rem;
+}
+
+.admin-message-section label {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.admin-message-input {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(47, 0, 255, 0.2);
+    color: #fff;
+    border-radius: 10px;
+    resize: vertical;
+}
+
+.admin-message-input:focus {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(47, 0, 255, 0.25);
+    color: #fff;
+}
+
+.admin-message-input::placeholder {
+    color: #aaa;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.action-btn {
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-title {
+        font-size: 2rem;
+    }
+    
+    .application-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .user-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .backstory-stats {
+        justify-content: center;
+    }
+}
+
+/* Custom Scrollbar for Backstory */
+.backstory-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.backstory-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+
+.backstory-content::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+.backstory-content::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
