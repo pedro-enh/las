@@ -16,6 +16,12 @@ if ($is_admin_login) {
     $_SESSION['admin_login'] = true;
 }
 
+// Check if this is for forum login
+$is_forum_login = isset($_GET['forum']) && $_GET['forum'] == '1';
+if ($is_forum_login) {
+    $_SESSION['forum_login'] = true;
+}
+
 // Generate state parameter for security
 $state = bin2hex(random_bytes(16));
 $_SESSION['oauth_state'] = $state;
