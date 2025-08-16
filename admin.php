@@ -133,9 +133,14 @@ function sendDiscordNotification($application, $decision, $admin_message, $confi
     $bot_token = $config['bot']['token'];
     $user_id = $application['discord_user']['id'];
     
-    if ($bot_token === 'YOUR_BOT_TOKEN_HERE') {
+    // Debug: Log the bot token status
+    error_log("Bot token status: " . ($bot_token === 'YOUR_BOT_TOKEN_HERE' ? 'NOT_CONFIGURED' : 'CONFIGURED'));
+    error_log("User ID: " . $user_id);
+    
+    if ($bot_token === 'YOUR_BOT_TOKEN_HERE' || empty($bot_token)) {
         // Bot token not configured, skip Discord notification
-        return;
+        error_log("Discord notification skipped: Bot token not configured");
+        return false;
     }
     
     $status_emoji = $decision === 'accept' ? '✅' : '❌';
@@ -192,15 +197,23 @@ function sendDiscordNotification($application, $decision, $admin_message, $confi
         'http' => [
             'header' => "Content-Type: application/json\r\nAuthorization: Bot {$bot_token}\r\n",
             'method' => 'POST',
-            'content' => json_encode($dm_channel_data)
+            'content' => json_encode($dm_channel_data),
+            'ignore_errors' => true
         ]
     ];
     
     $dm_context = stream_context_create($dm_options);
     $dm_response = file_get_contents('https://discord.com/api/v10/users/@me/channels', false, $dm_context);
     
+    // Debug: Log DM channel creation response
+    error_log("DM Channel Response: " . ($dm_response ?: 'FALSE'));
+    if (isset($http_response_header)) {
+        error_log("HTTP Response Headers: " . implode(', ', $http_response_header));
+    }
+    
     if ($dm_response !== FALSE) {
         $dm_channel = json_decode($dm_response, true);
+        error_log("DM Channel Data: " . json_encode($dm_channel));
         
         if (isset($dm_channel['id'])) {
             // Send message to DM channel
@@ -208,13 +221,34 @@ function sendDiscordNotification($application, $decision, $admin_message, $confi
                 'http' => [
                     'header' => "Content-Type: application/json\r\nAuthorization: Bot {$bot_token}\r\n",
                     'method' => 'POST',
-                    'content' => json_encode($dm_data)
+                    'content' => json_encode($dm_data),
+                    'ignore_errors' => true
                 ]
             ];
             
             $message_context = stream_context_create($message_options);
-            file_get_contents("https://discord.com/api/v10/channels/{$dm_channel['id']}/messages", false, $message_context);
+            $message_response = file_get_contents("https://discord.com/api/v10/channels/{$dm_channel['id']}/messages", false, $message_context);
+            
+            // Debug: Log message sending response
+            error_log("Message Send Response: " . ($message_response ?: 'FALSE'));
+            if (isset($http_response_header)) {
+                error_log("Message HTTP Response Headers: " . implode(', ', $http_response_header));
+            }
+            
+            if ($message_response !== FALSE) {
+                error_log("Discord DM sent successfully to user: " . $user_id);
+                return true;
+            } else {
+                error_log("Failed to send Discord DM to user: " . $user_id);
+                return false;
+            }
+        } else {
+            error_log("Failed to get DM channel ID. Response: " . json_encode($dm_channel));
+            return false;
         }
+    } else {
+        error_log("Failed to create DM channel for user: " . $user_id);
+        return false;
     }
     
     // Send mention in guild channel (if configured)
