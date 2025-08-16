@@ -128,6 +128,84 @@ $posts[$post_id]['comments'][] = $comment_data;
 // Save updated posts
 file_put_contents($posts_file, json_encode($posts, JSON_PRETTY_PRINT));
 
+// Send Discord DM notification if it's an admin command
+if ($is_admin_command && isset($config['bot']['token']) && $config['bot']['token'] !== 'YOUR_BOT_TOKEN_HERE') {
+    $original_poster = $posts[$post_id]['discord_user'];
+    $post_title = $posts[$post_id]['title'];
+    
+    // Prepare DM message
+    $dm_message = '';
+    $embed_color = 0x28a745; // Green for approved
+    
+    if ($new_status === 'approved') {
+        $dm_message = "✅ **Your forum post has been approved!**\n\n**Post Title:** {$post_title}\n\nYour post is now visible to all community members. Thank you for contributing to the Las Vegas Role Play community!";
+    } elseif ($new_status === 'rejected') {
+        $dm_message = "❌ **Your forum post has been rejected.**\n\n**Post Title:** {$post_title}\n\nPlease review our community guidelines and feel free to submit a new post that follows the rules.";
+        $embed_color = 0xdc3545; // Red for rejected
+    }
+    
+    // Create DM channel with user
+    $create_dm_url = "https://discord.com/api/v10/users/@me/channels";
+    $create_dm_data = json_encode([
+        'recipient_id' => $original_poster['id']
+    ]);
+    
+    $create_dm_options = [
+        'http' => [
+            'header' => [
+                "Content-Type: application/json",
+                "Authorization: Bot " . $config['bot']['token']
+            ],
+            'method' => 'POST',
+            'content' => $create_dm_data
+        ]
+    ];
+    
+    $create_dm_context = stream_context_create($create_dm_options);
+    $dm_response = file_get_contents($create_dm_url, false, $create_dm_context);
+    
+    if ($dm_response !== FALSE) {
+        $dm_channel = json_decode($dm_response, true);
+        
+        if (isset($dm_channel['id'])) {
+            // Send message to DM channel
+            $send_message_url = "https://discord.com/api/v10/channels/{$dm_channel['id']}/messages";
+            
+            $embed = [
+                'title' => $new_status === 'approved' ? '✅ Post Approved' : '❌ Post Rejected',
+                'description' => $dm_message,
+                'color' => $embed_color,
+                'timestamp' => date('c'),
+                'footer' => [
+                    'text' => 'Las Vegas Role Play - Forum System'
+                ]
+            ];
+            
+            $message_data = json_encode([
+                'embeds' => [$embed]
+            ]);
+            
+            $send_message_options = [
+                'http' => [
+                    'header' => [
+                        "Content-Type: application/json",
+                        "Authorization: Bot " . $config['bot']['token']
+                    ],
+                    'method' => 'POST',
+                    'content' => $message_data
+                ]
+            ];
+            
+            $send_message_context = stream_context_create($send_message_options);
+            $message_response = file_get_contents($send_message_url, false, $send_message_context);
+            
+            if ($message_response === FALSE) {
+                error_log("Failed to send DM notification for post: {$post_id}");
+            }
+        }
+    }
+}
+
 // Clear form data
 unset($_SESSION['comment_form_data']);
 unset($_SESSION['comment_form_errors']);
