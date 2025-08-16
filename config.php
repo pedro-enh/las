@@ -30,9 +30,9 @@ loadEnv(__DIR__ . '/.env');
 
 return [
     'discord' => [
-        // Replace these with your actual Discord application credentials
-        'client_id' => '1405261034759000116',
-        'client_secret' => 'Y3u9cKEm4YGhETO18JYRN0hLmhxOEDVB',
+       // Replace these with your actual Discord application credentials
+        'client_id' => '1406065032655143058',
+        'client_secret' => '4wRnQN55Uc05RGeyt4AP9v0dP2dicR08',
         
         // Update this with your actual domain
         'redirect_uri' => 'https://las-vegas.zeabur.app/discord_callback.php',
