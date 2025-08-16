@@ -516,7 +516,11 @@ unset($_SESSION['comment_form_errors']);
                 <h5 style="color: var(--primary-color); margin-bottom: 1rem;">
                     <i class="fas fa-file-alt me-2"></i>Description
                 </h5>
-                <p style="color: #e0e0e0; line-height: 1.6; white-space: pre-wrap;"><?php echo htmlspecialchars($post['content']); ?></p>
+                <p style="color: #e0e0e0; line-height: 1.6; white-space: pre-wrap;"><?php 
+                // Remove excessive repetitive characters (more than 5 in a row for full content)
+                $content = preg_replace('/(.)\1{5,}/', '$1$1$1$1$1', $post['content']);
+                echo htmlspecialchars($content); 
+                ?></p>
             </div>
 
             <!-- Comments Section -->
@@ -608,7 +612,6 @@ unset($_SESSION['comment_form_errors']);
                             <div class="mb-3">
                                 <textarea class="form-control" name="comment_content" rows="4" 
                                           placeholder="Write your comment here..." required><?php echo htmlspecialchars($form_data['comment_content'] ?? ''); ?></textarea>
-                                <small class="form-text text-muted">Minimum 10 characters required</small>
                             </div>
                             
                             <button type="submit" class="submit-btn">
