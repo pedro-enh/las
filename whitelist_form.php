@@ -140,16 +140,7 @@ $user = $_SESSION['discord_user'];
         <div class="form-group">
             <label for="character_story">8. Write your character's backstory *</label>
             <textarea class="form-control" id="character_story" name="character_story" rows="8" required 
-                      placeholder="Write a detailed story about your character (must be more than 5 lines)...
-
-Example:
-My name is John Smith, born in New York City in 1995. I grew up in a middle-class family, my father worked in construction and my mother was a nurse. Since childhood, I dreamed of making it big in Las Vegas.
-
-After finishing my college degree in Business Administration, I decided to move to Las Vegas to pursue better opportunities. I arrived in the city with little money but big dreams.
-
-Now I'm looking for honest work to start my new life in this city. I'm interested in working in business or services, and I dream of opening my own company someday.
-
-I have a calm and respectful personality, I like helping others and believe in honest work. I don't like violence or trouble, and I prefer to resolve conflicts through dialogue."><?php echo htmlspecialchars($form_data['character_story'] ?? ''); ?></textarea>
+                      placeholder="Write a detailed story about your character (must be more than 5 lines)..."><?php echo htmlspecialchars($form_data['character_story'] ?? ''); ?></textarea>
             <small class="form-text">The story must be more than 5 lines and contain realistic details about your character</small>
             <div id="story-counter" class="character-counter">0 characters</div>
         </div>
@@ -398,9 +389,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const count = storyTextarea.value.length;
             storyCounter.textContent = count + ' characters';
             
-            if (count < 500) {
+            if (count < 250) {
                 storyCounter.style.color = '#dc3545';
-            } else if (count < 1000) {
+            } else if (count < 500) {
                 storyCounter.style.color = '#ffc107';
             } else {
                 storyCounter.style.color = '#28a745';
@@ -434,10 +425,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Check story length
             const story = document.getElementById('character_story');
-            if (story && story.value.length < 500) {
+            if (story && story.value.length < 250) {
                 isValid = false;
                 story.style.borderColor = '#dc3545';
-                alert('Character story must be at least 500 characters long.');
+                alert('Character story must be at least 250 characters long.');
             }
             
             if (!isValid) {
