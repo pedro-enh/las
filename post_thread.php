@@ -332,7 +332,7 @@ unset($_SESSION['forum_form_errors']);
                     <label for="content">Detailed Description *</label>
                     <textarea class="form-control" id="content" name="content" rows="8" required 
                               placeholder="Provide a detailed description of what happened..."><?php echo htmlspecialchars($form_data['content'] ?? ''); ?></textarea>
-                    <small class="form-text">Describe the incident in detail (minimum 100 characters)</small>
+                    <small class="form-text">Describe the incident in detail</small>
                     <div id="content-counter" class="character-counter">0 characters</div>
                 </div>
 
@@ -399,13 +399,8 @@ unset($_SESSION['forum_form_errors']);
                     const count = contentTextarea.value.length;
                     contentCounter.textContent = count + ' characters';
                     
-                    if (count < 100) {
-                        contentCounter.style.color = '#dc3545';
-                    } else if (count < 200) {
-                        contentCounter.style.color = '#ffc107';
-                    } else {
-                        contentCounter.style.color = '#28a745';
-                    }
+                    // Simple character counter without color coding
+                    contentCounter.style.color = '#aaa';
                 }
                 
                 contentTextarea.addEventListener('input', updateCounter);
@@ -433,13 +428,7 @@ unset($_SESSION['forum_form_errors']);
                         }
                     });
                     
-                    // Check content length
-                    const content = document.getElementById('content');
-                    if (content && content.value.length < 100) {
-                        isValid = false;
-                        content.style.borderColor = '#dc3545';
-                        alert('Description must be at least 100 characters long.');
-                    }
+                    // Content validation removed - allow any length
                     
                     if (!isValid) {
                         e.preventDefault();
