@@ -38,223 +38,6 @@ uasort($posts, function($a, $b) {
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .forum-container {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(0, 47, 255, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem auto;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .forum-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .forum-title {
-            color: var(--primary-color);
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(47, 0, 255, 0.3);
-        }
-
-        .post-thread-btn {
-            background: linear-gradient(45deg, var(--primary-color), #4a00ff);
-            border: none;
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .post-thread-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(47, 0, 255, 0.3);
-            color: white;
-        }
-
-        .forum-tabs {
-            margin-bottom: 2rem;
-        }
-
-        .nav-tabs .nav-link {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(47, 0, 255, 0.2);
-            color: #e0e0e0;
-            margin-right: 0.5rem;
-            border-radius: 10px 10px 0 0;
-        }
-
-        .nav-tabs .nav-link.active {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: white;
-        }
-
-        .forum-post {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(47, 0, 255, 0.2);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .forum-post:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 5px 15px rgba(47, 0, 255, 0.2);
-        }
-
-        .post-header {
-            display: flex;
-            align-items: center;
-            justify-content: between;
-            margin-bottom: 1rem;
-        }
-
-        .post-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid var(--primary-color);
-            margin-right: 1rem;
-        }
-
-        .post-info h5 {
-            color: var(--primary-color);
-            margin: 0;
-            font-weight: 600;
-        }
-
-        .post-meta {
-            color: #aaa;
-            font-size: 0.9rem;
-        }
-
-        .post-status {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status-pending {
-            background: rgba(255, 193, 7, 0.2);
-            color: #ffc107;
-            border: 1px solid #ffc107;
-        }
-
-        .status-approved {
-            background: rgba(40, 167, 69, 0.2);
-            color: #28a745;
-            border: 1px solid #28a745;
-        }
-
-        .status-rejected {
-            background: rgba(220, 53, 69, 0.2);
-            color: #dc3545;
-            border: 1px solid #dc3545;
-        }
-
-        .post-content {
-            color: #e0e0e0;
-            margin-bottom: 1rem;
-        }
-
-        .post-details {
-            background: rgba(47, 0, 255, 0.1);
-            border: 1px solid rgba(47, 0, 255, 0.2);
-            border-radius: 10px;
-            padding: 1rem;
-            margin-top: 1rem;
-        }
-
-        .post-details .row {
-            margin: 0;
-        }
-
-        .post-details .col-md-6 {
-            padding: 0.25rem 0.5rem;
-        }
-
-        .post-details strong {
-            color: var(--primary-color);
-        }
-
-        .post-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(47, 0, 255, 0.2);
-        }
-
-        .view-post-btn {
-            background: rgba(47, 0, 255, 0.2);
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .view-post-btn:hover {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .no-posts {
-            text-align: center;
-            color: #aaa;
-            padding: 3rem;
-            font-size: 1.1rem;
-        }
-
-        .login-prompt {
-            background: rgba(47, 0, 255, 0.1);
-            border: 1px solid rgba(47, 0, 255, 0.2);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .login-prompt h4 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .discord-login-btn {
-            background: #5865F2;
-            border: none;
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-
-        .discord-login-btn:hover {
-            background: #4752C4;
-            transform: translateY(-2px);
-            color: white;
-        }
-    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -289,34 +72,56 @@ uasort($posts, function($a, $b) {
         </div>
     </nav>
 
-    <div class="container" style="padding-top: 120px;">
-        <div class="forum-container">
-            <div class="forum-header">
-                <h1 class="forum-title">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-slide active" style="background-image: url('https://cdn.discordapp.com/banners/1303802817479446568/a_058bbe8abb3969dc636f61c7e1a2d207.webp?size=480&animated=true');">
+        </div>
+        
+        <div class="container hero-content d-flex align-items-center justify-content-center" style="min-height: 60vh;">
+            <div class="text-center">
+                <h1 class="display-1 fw-bold hero-title mb-4">
                     <i class="fas fa-comments me-3"></i>
                     Las Vegas Role Play Forum
                 </h1>
-                <p class="text-muted">Community discussions and reports</p>
+                <p class="lead hero-subtitle mb-5">Community discussions and reports</p>
                 
                 <?php if ($is_logged_in): ?>
-                    <a href="post_thread.php" class="post-thread-btn">
-                        <i class="fas fa-plus me-2"></i>
-                        Post Thread
-                    </a>
+                    <div class="hero-buttons">
+                        <a href="post_thread.php" class="btn hero-btn">
+                            <i class="fas fa-plus me-2"></i>
+                            Post Thread
+                        </a>
+                        <div class="mt-3">
+                            <small class="text-muted">Welcome back, <?php echo htmlspecialchars($user['username']); ?>!</small>
+                        </div>
+                    </div>
                 <?php else: ?>
-                    <div class="login-prompt">
-                        <h4>Login Required</h4>
-                        <p class="text-muted mb-3">You need to login with Discord to create forum posts</p>
-                        <a href="discord_auth.php?forum=1" class="discord-login-btn">
+                    <div class="hero-buttons">
+                        <a href="discord_auth.php?forum=1" class="btn hero-btn">
                             <i class="fab fa-discord me-2"></i>
                             Login with Discord
                         </a>
+                        <div class="mt-3">
+                            <small class="text-muted">Login required to create forum posts</small>
+                        </div>
                     </div>
                 <?php endif; ?>
             </div>
+        </div>
+    </section>
+
+    <!-- Forum Section -->
+    <section class="about-section py-5">
+        <div class="container">
+            <div class="about-header text-center mb-5">
+                <h2 class="display-4 fw-bold text-white mb-4">Community Forum</h2>
+                <p class="lead">Share your experiences, report issues, and connect with the Las Vegas RP community</p>
+            </div>
+            
+            <div class="forum-container" style="background: rgba(0, 0, 0, 0.8); border: 1px solid rgba(0, 47, 255, 0.2); border-radius: 20px; padding: 2rem; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
 
             <!-- Forum Tabs -->
-            <ul class="nav nav-tabs forum-tabs" id="forumTabs" role="tablist">
+            <ul class="nav nav-tabs forum-tabs mb-4" id="forumTabs" role="tablist" style="border-bottom: 1px solid rgba(47, 0, 255, 0.2);">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">
                         <i class="fas fa-list me-2"></i>All Posts
@@ -419,9 +224,57 @@ uasort($posts, function($a, $b) {
                     Back to Home
                 </a>
             </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h5 class="footer-title">Las Vegas Role Play</h5>
+                    <p class="footer-description">The most immersive GTA San Andreas Multiplayer roleplay experience. Join our community and start your story in Las Vegas.</p>
+                    <div class="footer-social">
+                        <a href="https://discord.gg/qGMCBgQFMt" target="_blank"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="footer-title">Server</h6>
+                    <ul class="footer-links">
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="index.php#about">About</a></li>
+                        <li><a href="index.php#server-status">Server Status</a></li>
+                        <li><a href="index.php#whitelist">Whitelist</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="footer-title">Community</h6>
+                    <ul class="footer-links">
+                        <li><a href="https://discord.gg/qGMCBgQFMt" target="_blank">Discord</a></li>
+                        <li><a href="forum.php">Forums</a></li>
+                        <li><a href="#">Rules</a></li>
+                        <li><a href="https://discord.gg/qGMCBgQFMt">Support</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="footer-title">Server Information</h6>
+                    <p class="text-muted mb-2"><i class="fas fa-server me-2"></i> IP: 94.23.168.153:1285</p>
+                    <p class="text-muted mb-2"><i class="fas fa-users me-2"></i> 500+ Active Players</p>
+                    <p class="text-muted mb-2"><i class="fas fa-clock me-2"></i> 24/7 Online</p>
+                    <p class="text-muted"><i class="fas fa-map-marker-alt me-2"></i> Las Vegas, USA</p>
+                </div>
+            </div>
+            <div class="footer-bottom text-center">
+                <p>&copy; 2024 Las Vegas Role Play. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
