@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+$config = require_once 'config.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['discord_user'])) {
@@ -37,6 +37,10 @@ if (empty($comment_content)) {
     $errors[] = 'Comment content is required';
 }
 
+// Check if non-admin user is trying to use admin commands
+if (!$is_admin && ($comment_content === '/approve' || $comment_content === '/reject')) {
+    $errors[] = 'You do not have permission to use admin commands';
+}
 
 // Check if comment is not too long
 if (strlen($comment_content) > 1000) {
