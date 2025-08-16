@@ -268,7 +268,7 @@ uasort($posts, function($a, $b) {
                     <div class="login-prompt">
                         <h4>Login Required</h4>
                         <p class="text-muted mb-3">You need to login with Discord to create forum posts</p>
-                        <a href="discord_auth.php" class="discord-login-btn">
+                        <a href="discord_auth.php?forum=1" class="discord-login-btn">
                             <i class="fab fa-discord me-2"></i>
                             Login with Discord
                         </a>
