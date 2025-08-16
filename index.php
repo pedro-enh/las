@@ -17,7 +17,7 @@ session_start();
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#home">
-                <i class="fas fa-gamepad text-warning me-2"></i>
+                <img src="https://cdn.discordapp.com/icons/1303802817479446568/a_bc0ae6879a0973672910e44a2c9ac412.gif?size=512" alt="Las Vegas RP" class="server-logo me-2">
                 <span class="brand-text">Las Vegas RP</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -64,9 +64,8 @@ session_start();
                             <i class="fas fa-download"></i> Download Launcher
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><a class="dropdown-item" href="#"><i class="fab fa-windows"></i> Windows</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fab fa-apple"></i> macOS</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fab fa-linux"></i> Linux</a></li>
+                            <li><a class="dropdown-item" href="https://www.sa-mp.mp/"><i class="fab fa-windows"></i> Windows</a></li>
+                            <li><a class="dropdown-item" href="https://play.google.com/store/apps/details?id=ru.unisamp_mobile.launcher&hl=fr"><i class="fab fa-android"></i> Android</a></li>
                         </ul>
                     </div>
                     <a href="https://discord.gg/qGMCBgQFMt" target="_blank" class="btn hero-btn">
@@ -207,7 +206,7 @@ session_start();
                                         </div>
                                         <div class="status-info">
                                             <div class="status-label">Location</div>
-                                            <div class="status-value">Las Vegas</div>
+                                            <div class="status-value">Morocco</div>
                                         </div>
                                     </div>
                                 </div>
@@ -313,7 +312,7 @@ session_start();
                         <li><a href="https://discord.gg/qGMCBgQFMt" target="_blank">Discord</a></li>
                         <li><a href="#">Forums</a></li>
                         <li><a href="#">Rules</a></li>
-                        <li><a href="#">Support</a></li>
+                        <li><a href="https://discord.gg/qGMCBgQFMt">Support</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
