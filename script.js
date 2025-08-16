@@ -1,183 +1,66 @@
+// Smooth scrolling for navigation links
 document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling for navigation links
-    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    // Get all navigation links
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // Add click event listeners for smooth scrolling
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
             
-            if (targetElement) {
-                targetElement.scrollIntoView({
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                targetSection.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
             }
+            
+            // Update active nav link
+            navLinks.forEach(navLink => navLink.classList.remove('active'));
+            this.classList.add('active');
         });
     });
 
-    // Character counter for story textarea
-    const storyTextarea = document.getElementById('character_story');
-    const storyCounter = document.getElementById('story-counter');
-    
-    if (storyTextarea && storyCounter) {
-        function updateCounter() {
-            const count = storyTextarea.value.length;
-            storyCounter.textContent = count + ' حرف';
-            
-            // Change color based on length
-            if (count < 200) {
-                storyCounter.style.color = '#dc3545';
-            } else if (count < 500) {
-                storyCounter.style.color = '#ffc107';
-            } else {
-                storyCounter.style.color = '#28a745';
-            }
-        }
-        
-        storyTextarea.addEventListener('input', updateCounter);
-        updateCounter(); // Initial count
-    }
-
-    // Form validation
-    const whitelistForm = document.getElementById('whitelistForm');
-    if (whitelistForm) {
-        whitelistForm.addEventListener('submit', function(e) {
-            const submitBtn = document.getElementById('submitBtn');
-            const btnText = submitBtn.querySelector('.btn-text');
-            const loading = submitBtn.querySelector('.loading');
-            
-            // Validate story length (at least 5 lines)
-            const story = storyTextarea.value.trim();
-            const lines = story.split('\n').filter(line => line.trim() !== '');
-            
-            if (lines.length < 5) {
-                e.preventDefault();
-                alert('يجب أن تكون قصة الشخصية أكثر من 5 أسطر');
-                return;
-            }
-            
-            if (story.length < 200) {
-                e.preventDefault();
-                alert('قصة الشخصية قصيرة جداً. يرجى كتابة قصة أكثر تفصيلاً');
-                return;
-            }
-            
-            // Show loading state
-            submitBtn.disabled = true;
-            btnText.style.display = 'none';
-            loading.style.display = 'inline-block';
-        });
-    }
-
-    // Auto-hide messages after 5 seconds
-    const messages = document.querySelectorAll('.message');
-    messages.forEach(message => {
-        setTimeout(() => {
-            message.style.opacity = '0';
-            setTimeout(() => {
-                message.remove();
-            }, 300);
-        }, 5000);
-    });
-
-    // Add click effect to buttons
-    const buttons = document.querySelectorAll('.cta-button, .discord-btn, .submit-btn');
-    buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            // Create ripple effect
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.classList.add('ripple');
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
-    });
-
-    // Navbar background change on scroll
+    // Add navbar background on scroll
     const navbar = document.querySelector('.navbar');
-    if (navbar) {
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 100) {
-                navbar.style.background = 'rgba(0,0,0,0.95)';
-            } else {
-                navbar.style.background = 'rgba(0,0,0,0.9)';
-            }
-        });
-    }
-
-    // Form field validation feedback
-    const formInputs = document.querySelectorAll('.form-group input, .form-group select, .form-group textarea');
-    formInputs.forEach(input => {
-        input.addEventListener('blur', function() {
-            validateField(this);
-        });
-        
-        input.addEventListener('input', function() {
-            if (this.classList.contains('invalid')) {
-                validateField(this);
-            }
-        });
+    
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 100) {
+            navbar.style.background = 'rgba(10, 10, 10, 0.98)';
+        } else {
+            navbar.style.background = 'rgba(10, 10, 10, 0.95)';
+        }
     });
 
-    function validateField(field) {
-        const value = field.value.trim();
-        const isRequired = field.hasAttribute('required');
+    // Add typing effect to hero title
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        const text = heroTitle.textContent;
+        heroTitle.textContent = '';
         
-        // Remove previous validation classes
-        field.classList.remove('valid', 'invalid');
-        
-        if (isRequired && !value) {
-            field.classList.add('invalid');
-            return false;
-        }
-        
-        // Specific validations
-        if (field.type === 'number') {
-            const min = parseInt(field.getAttribute('min'));
-            const max = parseInt(field.getAttribute('max'));
-            const numValue = parseInt(value);
-            
-            if (value && (numValue < min || numValue > max)) {
-                field.classList.add('invalid');
-                return false;
+        let i = 0;
+        const typeWriter = () => {
+            if (i < text.length) {
+                heroTitle.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
             }
-        }
+        };
         
-        if (field.id === 'character_name') {
-            // Check for realistic name format
-            const namePattern = /^[A-Za-z]+_[A-Za-z]+$/;
-            if (value && !namePattern.test(value)) {
-                field.classList.add('invalid');
-                return false;
-            }
-        }
-        
-        if (value) {
-            field.classList.add('valid');
-        }
-        
-        return true;
+        // Start typing effect after a short delay
+        setTimeout(typeWriter, 500);
     }
 
-    // Add animation to cards on scroll
+    // Add intersection observer for animations
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
 
-    const observer = new IntersectionObserver(function(entries) {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
@@ -186,59 +69,225 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    // Observe cards for animation
-    const cards = document.querySelectorAll('.about-card, .rule-item');
-    cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-        observer.observe(card);
+    // Observe animated elements
+    const animatedElements = document.querySelectorAll('.about-card, .stat-item, .status-card');
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+
+    // Update active nav link on scroll
+    const sections = document.querySelectorAll('section[id]');
+    
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (window.pageYOffset >= sectionTop - 200) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
     });
 });
 
-// Add CSS for ripple effect and validation styles
+// Copy IP to clipboard function
+function copyIP() {
+    const ipText = '94.23.168.153:1285';
+    navigator.clipboard.writeText(ipText).then(() => {
+        // Show temporary feedback
+        const serverIP = document.querySelector('.server-ip');
+        const originalHTML = serverIP.innerHTML;
+        serverIP.innerHTML = '<span class="copy-ip">Copied!</span><i class="fas fa-check ms-2"></i>';
+        
+        setTimeout(() => {
+            serverIP.innerHTML = originalHTML;
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = ipText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        // Show feedback
+        const serverIP = document.querySelector('.server-ip');
+        const originalHTML = serverIP.innerHTML;
+        serverIP.innerHTML = '<span class="copy-ip">Copied!</span><i class="fas fa-check ms-2"></i>';
+        
+        setTimeout(() => {
+            serverIP.innerHTML = originalHTML;
+        }, 2000);
+    });
+}
+
+// Connect to server function
+function connectToServer() {
+    const serverIP = '94.23.168.153:1285';
+    
+    // Try to open SA-MP protocol link
+    const sampLink = `samp://${serverIP}`;
+    
+    // Create a temporary link and click it
+    const link = document.createElement('a');
+    link.href = sampLink;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Show notification
+    showNotification('Attempting to connect to server...', 'info');
+    
+    // Fallback: show manual instructions after a delay
+    setTimeout(() => {
+        showNotification(`If SA-MP didn't open automatically, please copy this IP: ${serverIP}`, 'warning');
+    }, 3000);
+}
+
+// Show notification function
+function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notification => notification.remove());
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification alert alert-${type === 'info' ? 'primary' : type === 'warning' ? 'warning' : 'success'}`;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        max-width: 400px;
+        padding: 1rem;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.9);
+        border: 1px solid var(--primary-color);
+        color: white;
+        backdrop-filter: blur(10px);
+        animation: slideInRight 0.3s ease;
+    `;
+    
+    notification.innerHTML = `
+        <div class="d-flex align-items-center">
+            <i class="fas fa-${type === 'info' ? 'info-circle' : type === 'warning' ? 'exclamation-triangle' : 'check-circle'} me-2"></i>
+            <span>${message}</span>
+            <button type="button" class="btn-close btn-close-white ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+// Add CSS for notification animation
 const style = document.createElement('style');
 style.textContent = `
-    .ripple {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.3);
-        transform: scale(0);
-        animation: ripple-animation 0.6s linear;
-        pointer-events: none;
-    }
-
-    @keyframes ripple-animation {
-        to {
-            transform: scale(4);
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
             opacity: 0;
         }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
     }
-
-    .form-group input.valid,
-    .form-group select.valid,
-    .form-group textarea.valid {
-        border-color: #28a745;
-        box-shadow: 0 0 0 3px rgba(40,167,69,0.1);
+    
+    .notification {
+        animation: slideInRight 0.3s ease;
     }
-
-    .form-group input.invalid,
-    .form-group select.invalid,
-    .form-group textarea.invalid {
-        border-color: #dc3545;
-        box-shadow: 0 0 0 3px rgba(220,53,69,0.1);
+    
+    .btn-close-white {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 0;
+        margin-left: 1rem;
     }
-
-    .form-group {
-        position: relative;
-    }
-
-    .cta-button,
-    .discord-btn,
-    .submit-btn {
-        position: relative;
-        overflow: hidden;
+    
+    .btn-close-white:hover {
+        opacity: 0.7;
     }
 `;
-
 document.head.appendChild(style);
+
+// Server status update simulation
+function updateServerStatus() {
+    const statusCards = document.querySelectorAll('.status-card');
+    
+    statusCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.classList.add('status-updated');
+            setTimeout(() => {
+                card.classList.remove('status-updated');
+            }, 1000);
+        });
+    });
+}
+
+// Initialize server status updates
+document.addEventListener('DOMContentLoaded', updateServerStatus);
+
+// Smooth scroll behavior for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Add floating animation to elements
+function addFloatingAnimation() {
+    const floatingElements = document.querySelectorAll('.about-icon, .status-icon');
+    
+    floatingElements.forEach((element, index) => {
+        element.style.animation = `float 3s ease-in-out infinite`;
+        element.style.animationDelay = `${index * 0.2}s`;
+    });
+}
+
+// Initialize floating animations
+document.addEventListener('DOMContentLoaded', addFloatingAnimation);
+
+// Add glow effect on hover for interactive elements
+document.addEventListener('DOMContentLoaded', function() {
+    const glowElements = document.querySelectorAll('.hero-btn, .join-btn, .btn-primary');
+    
+    glowElements.forEach(element => {
+        element.addEventListener('mouseenter', function() {
+            this.style.filter = 'drop-shadow(0 0 20px rgba(47, 0, 255, 0.5))';
+        });
+        
+        element.addEventListener('mouseleave', function() {
+            this.style.filter = 'none';
+        });
+    });
+});
