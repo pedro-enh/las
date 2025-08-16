@@ -10,6 +10,12 @@ $client_secret = $config['discord']['client_secret'];
 $redirect_uri = $config['discord']['redirect_uri'];
 $scope = $config['discord']['scope'];
 
+// Check if this is for admin login
+$is_admin_login = isset($_GET['admin']) && $_GET['admin'] == '1';
+if ($is_admin_login) {
+    $_SESSION['admin_login'] = true;
+}
+
 // Generate state parameter for security
 $state = bin2hex(random_bytes(16));
 $_SESSION['oauth_state'] = $state;
