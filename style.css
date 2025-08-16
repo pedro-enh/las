@@ -75,9 +75,16 @@ body {
 
 /* Animated Text Effects */
 .hero-title {
-    text-shadow: 0 0 10px rgba(0, 17, 255, 0.5);
+    color: var(--primary-color);
+    text-shadow: 0 0 20px rgba(47, 0, 255, 0.8), 0 0 40px rgba(47, 0, 255, 0.6);
     position: relative;
     display: inline-block;
+    font-weight: 900;
+    background: linear-gradient(45deg, #ffffff, var(--primary-color), #00b0ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowPulse 3s ease-in-out infinite;
 }
 
 .hero-title::after {
