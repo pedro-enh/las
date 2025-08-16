@@ -1,4 +1,4 @@
-<div class="forum-post-row">
+<div class="forum-post-row" onclick="window.location.href='view_post.php?id=<?php echo $post_id; ?>'" style="cursor: pointer;">
     <div class="post-status-section">
         <?php 
         $statusClass = '';
@@ -56,13 +56,9 @@
     </div>
     
     <div class="post-stats">
-        <div class="stat-item">
+        <div class="stat-item-small">
             <i class="fas fa-comments"></i>
             <span><?php echo isset($post['comments']) ? count($post['comments']) : 0; ?></span>
-        </div>
-        <div class="stat-item">
-            <i class="fas fa-eye"></i>
-            <span><?php echo $post['views'] ?? rand(10, 200); ?></span>
         </div>
     </div>
     
