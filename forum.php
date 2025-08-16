@@ -276,11 +276,13 @@ uasort($posts, function($a, $b) {
                 
                 allPosts.forEach(post => {
                     const title = post.querySelector('.post-title')?.textContent.toLowerCase() || '';
-                    const playerName = post.querySelector('.post-meta')?.textContent.toLowerCase() || '';
+                    const metaInfo = post.querySelector('.post-meta-info')?.textContent.toLowerCase() || '';
+                    const author = post.querySelector('.post-author')?.textContent.toLowerCase() || '';
                     const content = post.textContent.toLowerCase();
                     
                     const matches = title.includes(searchTerm) || 
-                                  playerName.includes(searchTerm) || 
+                                  metaInfo.includes(searchTerm) || 
+                                  author.includes(searchTerm) ||
                                   content.includes(searchTerm);
                     
                     if (searchTerm === '' || matches) {
