@@ -78,15 +78,6 @@ if (strlen($character_story) < 250) {
     $errors[] = 'Character backstory must be at least 250 characters long';
 }
 
-// Check if story has at least 5 lines
-$story_lines = explode("\n", $character_story);
-$non_empty_lines = array_filter($story_lines, function($line) {
-    return trim($line) !== '';
-});
-
-if (count($non_empty_lines) < 5) {
-    $errors[] = 'Character backstory must be more than 5 lines';
-}
 
 if (!$terms) {
     $errors[] = 'You must agree to the server rules';
@@ -138,7 +129,7 @@ $embed = [
         ],
         [
             'name' => '📊 Application Stats',
-            'value' => "**Story Length:** " . strlen($character_story) . " characters\n**Story Lines:** " . count($non_empty_lines) . " lines\n**Submission Time:** " . date('Y-m-d H:i:s T'),
+            'value' => "**Story Length:** " . strlen($character_story) . " characters\n**Submission Time:** " . date('Y-m-d H:i:s T'),
             'inline' => false
         ]
     ],
@@ -193,8 +184,7 @@ $log_entry = [
         'character_age' => $character_age,
         'character_type' => $character_type,
         'rp_experience' => $rp_experience,
-        'character_story_length' => strlen($character_story),
-        'story_lines' => count($non_empty_lines)
+        'character_story_length' => strlen($character_story)
     ]
 ];
 
