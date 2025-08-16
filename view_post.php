@@ -522,7 +522,7 @@ unset($_SESSION['comment_form_errors']);
                 <?php endif; ?>
 
                 <!-- Comment Form -->
-                <?php if ($post['status'] === 'approved' && $is_logged_in): ?>
+                <?php if ($post['status'] === 'pending' && $is_logged_in): ?>
                     <!-- Error Messages -->
                     <?php if (!empty($form_errors)): ?>
                         <div class="alert alert-danger">
@@ -555,10 +555,10 @@ unset($_SESSION['comment_form_errors']);
                             </button>
                         </form>
                     </div>
-                <?php elseif ($post['status'] !== 'approved'): ?>
+                <?php elseif ($post['status'] !== 'pending'): ?>
                     <div class="locked-message">
                         <h6><i class="fas fa-lock me-2"></i>Comments Locked</h6>
-                        <p>Comments are disabled until this post is approved by an administrator.</p>
+                        <p>Comments have been locked because this post has been <?php echo $post['status']; ?> by an administrator.</p>
                     </div>
                 <?php elseif (!$is_logged_in): ?>
                     <div class="locked-message">
