@@ -543,7 +543,7 @@ body {
 }
 
 .footer-description {
-    color: var(--text-muted);
+    color: #e0e0e0;
     line-height: 1.6;
     margin-bottom: 1.5rem;
 }
@@ -756,7 +756,7 @@ body {
 }
 
 .about-text {
-    color: var(--text-muted);
+    color: #e0e0e0;
     line-height: 1.8;
     margin-bottom: 0;
     font-size: 1.1rem;
