@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once 'config.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['discord_user'])) {
@@ -14,6 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $user = $_SESSION['discord_user'];
+
+// Check if user is admin
+$is_admin = false;
+if (isset($config['admins'])) {
+    $is_admin = in_array($user['id'], $config['admins']);
+}
 
 // Validate and sanitize form data
 $post_id = trim($_POST['post_id'] ?? '');
@@ -30,10 +37,6 @@ if (empty($comment_content)) {
     $errors[] = 'Comment content is required';
 }
 
-// Check if comment has at least 10 characters
-if (strlen($comment_content) < 10) {
-    $errors[] = 'Comment must be at least 10 characters long';
-}
 
 // Check if comment is not too long
 if (strlen($comment_content) > 1000) {
@@ -72,6 +75,28 @@ if ($posts[$post_id]['status'] !== 'pending') {
     exit();
 }
 
+// Check for admin commands
+$is_admin_command = false;
+$new_status = null;
+$success_message = 'Comment posted successfully!';
+
+if ($is_admin && ($comment_content === '/approve' || $comment_content === '/reject')) {
+    $is_admin_command = true;
+    
+    if ($comment_content === '/approve') {
+        $new_status = 'approved';
+        $comment_content = 'Post has been approved by admin.';
+        $success_message = 'Post approved successfully!';
+    } elseif ($comment_content === '/reject') {
+        $new_status = 'rejected';
+        $comment_content = 'Post has been rejected by admin.';
+        $success_message = 'Post rejected successfully!';
+    }
+    
+    // Update post status
+    $posts[$post_id]['status'] = $new_status;
+}
+
 // Prepare comment data
 $comment_data = [
     'timestamp' => date('Y-m-d H:i:s'),
@@ -83,6 +108,11 @@ $comment_data = [
         'avatar' => $user['avatar'] ?? null
     ]
 ];
+
+// Add admin command flag if it's an admin command
+if ($is_admin_command) {
+    $comment_data['is_admin_command'] = true;
+}
 
 // Add comment to post
 if (!isset($posts[$post_id]['comments'])) {
@@ -99,7 +129,7 @@ unset($_SESSION['comment_form_data']);
 unset($_SESSION['comment_form_errors']);
 
 // Set success message
-$_SESSION['comment_success'] = 'Comment posted successfully!';
+$_SESSION['comment_success'] = $success_message;
 
 // Redirect back to post
 header('Location: view_post.php?id=' . urlencode($post_id) . '#comments');
