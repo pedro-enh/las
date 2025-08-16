@@ -72,50 +72,27 @@ uasort($posts, function($a, $b) {
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-slide active" style="background-image: url('https://cdn.discordapp.com/banners/1303802817479446568/a_058bbe8abb3969dc636f61c7e1a2d207.webp?size=480&animated=true');">
-        </div>
-        
-        <div class="container hero-content d-flex align-items-center justify-content-center" style="min-height: 60vh;">
-            <div class="text-center">
-                <h1 class="display-1 fw-bold hero-title mb-4">
-                    <i class="fas fa-comments me-3"></i>
-                    Las Vegas Role Play Forum
-                </h1>
-                <p class="lead hero-subtitle mb-5">Community discussions and reports</p>
-                
-                <?php if ($is_logged_in): ?>
-                    <div class="hero-buttons">
-                        <a href="post_thread.php" class="btn hero-btn">
-                            <i class="fas fa-plus me-2"></i>
-                            Post Thread
-                        </a>
-                        <div class="mt-3">
-                            <small class="text-muted">Welcome back, <?php echo htmlspecialchars($user['username']); ?>!</small>
-                        </div>
-                    </div>
-                <?php else: ?>
-                    <div class="hero-buttons">
-                        <a href="discord_auth.php?forum=1" class="btn hero-btn">
-                            <i class="fab fa-discord me-2"></i>
-                            Login with Discord
-                        </a>
-                        <div class="mt-3">
-                            <small class="text-muted">Login required to create forum posts</small>
-                        </div>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
-
     <!-- Forum Section -->
-    <section class="about-section py-5">
+    <section class="py-5" style="padding-top: 120px; min-height: 100vh; background: linear-gradient(to bottom, var(--dark-bg), var(--darker-bg));">
         <div class="container">
-            <div class="about-header text-center mb-5">
+            <div class="text-center mb-5">
                 <h2 class="display-4 fw-bold text-white mb-4">Community Forum</h2>
-                <p class="lead">Share your experiences, report issues, and connect with the Las Vegas RP community</p>
+                <p class="lead text-muted">Share your experiences, report issues, and connect with the Las Vegas RP community</p>
+            </div>
+            
+            <!-- Post Thread Button -->
+            <div class="text-center mb-4">
+                <?php if ($is_logged_in): ?>
+                    <a href="post_thread.php" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>
+                        Post Thread
+                    </a>
+                <?php else: ?>
+                    <a href="discord_auth.php?forum=1" class="btn btn-primary">
+                        <i class="fab fa-discord me-2"></i>
+                        Login with Discord
+                    </a>
+                <?php endif; ?>
             </div>
             
             <div class="forum-container" style="background: rgba(0, 0, 0, 0.8); border: 1px solid rgba(0, 47, 255, 0.2); border-radius: 20px; padding: 2rem; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
