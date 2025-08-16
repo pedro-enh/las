@@ -502,6 +502,16 @@ unset($_SESSION['comment_form_errors']);
                                 <div>
                                     <div style="color: var(--primary-color); font-weight: 600;">
                                         <?php echo htmlspecialchars($comment['discord_user']['global_name'] ?? $comment['discord_user']['username']); ?>
+                                        <?php 
+                                        // Check if commenter is admin
+                                        $is_commenter_admin = false;
+                                        if (isset($config['admin_ids']) && isset($comment['discord_user']['id'])) {
+                                            $is_commenter_admin = in_array($comment['discord_user']['id'], $config['admin_ids']);
+                                        }
+                                        
+                                        if ($is_commenter_admin): ?>
+                                            <span class="badge bg-danger ms-2" style="font-size: 0.7rem;">ADMIN</span>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="text-muted" style="font-size: 0.9rem;">
                                         <?php echo date('M j, Y \a\t g:i A', strtotime($comment['timestamp'])); ?>
