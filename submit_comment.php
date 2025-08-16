@@ -65,9 +65,9 @@ if (!isset($posts[$post_id])) {
     exit();
 }
 
-// Check if post is approved (only approved posts can receive comments)
-if ($posts[$post_id]['status'] !== 'approved') {
-    $_SESSION['comment_form_errors'] = ['Comments are only allowed on approved posts'];
+// Check if post is pending (only pending posts can receive comments)
+if ($posts[$post_id]['status'] !== 'pending') {
+    $_SESSION['comment_form_errors'] = ['Comments are only allowed on pending posts'];
     header('Location: view_post.php?id=' . urlencode($post_id));
     exit();
 }
