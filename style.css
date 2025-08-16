@@ -548,6 +548,20 @@ body {
     gap: 12px;
 }
 
+.server-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.server-logo:hover {
+    transform: scale(1.1);
+    border-color: var(--primary-hover);
+    box-shadow: 0 0 15px rgba(47, 0, 255, 0.5);
+}
+
 .brand-text {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     font-weight: 700;
