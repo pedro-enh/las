@@ -37,35 +37,45 @@ $truthful = isset($_POST['truthful']);
 $errors = [];
 
 if (empty($real_name)) {
-    $errors[] = 'الاسم الحقيقي مطلوب';
+    $errors[] = 'Real name is required';
 }
 
 if ($real_age < 13 || $real_age > 100) {
-    $errors[] = 'العمر الحقيقي غير صحيح';
+    $errors[] = 'Real age must be between 13 and 100 years';
 }
 
 if (empty($nationality)) {
-    $errors[] = 'الجنسية مطلوبة';
+    $errors[] = 'Nationality is required';
 }
 
 if (empty($character_name)) {
-    $errors[] = 'اسم الشخصية مطلوب';
+    $errors[] = 'Character name is required';
+}
+
+// Validate character name format (should be realistic)
+if (!empty($character_name) && !preg_match('/^[A-Za-z]+_[A-Za-z]+$/', $character_name)) {
+    $errors[] = 'Character name must be in format: Firstname_Lastname (e.g., John_Smith)';
 }
 
 if ($character_age < 18 || $character_age > 80) {
-    $errors[] = 'عمر الشخصية يجب أن يكون بين 18 و 80 سنة';
+    $errors[] = 'Character age must be between 18 and 80 years';
 }
 
 if (empty($character_type)) {
-    $errors[] = 'نوع الشخصية مطلوب';
+    $errors[] = 'Character type is required';
 }
 
 if (empty($rp_experience)) {
-    $errors[] = 'مستوى خبرة الرول بلاي مطلوب';
+    $errors[] = 'Roleplay experience level is required';
 }
 
 if (empty($character_story)) {
-    $errors[] = 'قصة الشخصية مطلوبة';
+    $errors[] = 'Character backstory is required';
+}
+
+// Check if story has at least 500 characters
+if (strlen($character_story) < 500) {
+    $errors[] = 'Character backstory must be at least 500 characters long';
 }
 
 // Check if story has at least 5 lines
@@ -75,15 +85,15 @@ $non_empty_lines = array_filter($story_lines, function($line) {
 });
 
 if (count($non_empty_lines) < 5) {
-    $errors[] = 'قصة الشخصية يجب أن تكون أكثر من 5 أسطر';
+    $errors[] = 'Character backstory must be more than 5 lines';
 }
 
 if (!$terms) {
-    $errors[] = 'يجب الموافقة على قوانين السيرفر';
+    $errors[] = 'You must agree to the server rules';
 }
 
 if (!$truthful) {
-    $errors[] = 'يجب التعهد بصحة المعلومات';
+    $errors[] = 'You must certify that all information is true and accurate';
 }
 
 // If there are errors, redirect back with error message
@@ -96,39 +106,44 @@ if (!empty($errors)) {
 
 // Prepare Discord embed
 $embed = [
-    'title' => '🎮 طلب انضمام جديد - سيرفر لاس فيغاس',
-    'description' => 'تم استلام طلب انضمام جديد للسيرفر',
-    'color' => 0x667eea,
+    'title' => '🎮 New Whitelist Application - Las Vegas Role Play',
+    'description' => 'A new whitelist application has been submitted for review',
+    'color' => 0x2f00ff, // Updated to match the new primary color
     'timestamp' => date('c'),
     'fields' => [
         [
-            'name' => '👤 معلومات Discord',
-            'value' => "**الاسم:** {$user['global_name']}\n**Username:** {$user['username']}\n**Discord ID:** {$user['id']}",
+            'name' => '👤 Discord Information',
+            'value' => "**Name:** " . ($user['global_name'] ?? $user['username']) . "\n**Username:** {$user['username']}\n**Discord ID:** {$user['id']}",
             'inline' => false
         ],
         [
-            'name' => '🆔 المعلومات الشخصية',
-            'value' => "**الاسم الحقيقي:** {$real_name}\n**العمر الحقيقي:** {$real_age} سنة\n**الجنسية:** {$nationality}",
+            'name' => '🆔 Personal Information',
+            'value' => "**Real Name:** {$real_name}\n**Real Age:** {$real_age} years\n**Nationality:** {$nationality}",
             'inline' => true
         ],
         [
-            'name' => '🎭 معلومات الشخصية',
-            'value' => "**اسم الشخصية:** {$character_name}\n**عمر الشخصية:** {$character_age} سنة\n**نوع الشخصية:** {$character_type}",
+            'name' => '🎭 Character Information',
+            'value' => "**Character Name:** {$character_name}\n**Character Age:** {$character_age} years\n**Character Type:** {$character_type}",
             'inline' => true
         ],
         [
-            'name' => '🎯 خبرة الرول بلاي',
+            'name' => '🎯 Roleplay Experience',
             'value' => $rp_experience,
             'inline' => false
         ],
         [
-            'name' => '📖 قصة الشخصية',
+            'name' => '📖 Character Backstory',
             'value' => strlen($character_story) > 1024 ? substr($character_story, 0, 1021) . '...' : $character_story,
+            'inline' => false
+        ],
+        [
+            'name' => '📊 Application Stats',
+            'value' => "**Story Length:** " . strlen($character_story) . " characters\n**Story Lines:** " . count($non_empty_lines) . " lines\n**Submission Time:** " . date('Y-m-d H:i:s T'),
             'inline' => false
         ]
     ],
     'footer' => [
-        'text' => 'Las Vegas SAMP Server - Whitelist System',
+        'text' => 'Las Vegas Role Play - Whitelist System',
         'icon_url' => 'https://cdn.discordapp.com/attachments/123456789/123456789/server_icon.png'
     ],
     'thumbnail' => [
@@ -138,7 +153,7 @@ $embed = [
 
 // Prepare webhook payload
 $webhook_data = [
-    'content' => '@here طلب انضمام جديد يحتاج للمراجعة!',
+    'content' => '🔔 **New Whitelist Application** - Requires Admin Review!\n@here',
     'embeds' => [$embed]
 ];
 
@@ -156,17 +171,50 @@ $webhook_response = file_get_contents($webhook_url, false, $webhook_context);
 
 // Check if webhook was successful
 if ($webhook_response === FALSE) {
-    $_SESSION['form_errors'] = ['حدث خطأ في إرسال الطلب. يرجى المحاولة مرة أخرى.'];
+    $_SESSION['form_errors'] = ['An error occurred while submitting your application. Please try again.'];
     $_SESSION['form_data'] = $_POST;
     header('Location: index.php#whitelist');
     exit();
 }
 
-// Store application in session (optional - for confirmation)
+// Optional: Log the application to a file for backup
+$log_entry = [
+    'timestamp' => date('Y-m-d H:i:s'),
+    'discord_user' => [
+        'id' => $user['id'],
+        'username' => $user['username'],
+        'global_name' => $user['global_name'] ?? null
+    ],
+    'application_data' => [
+        'real_name' => $real_name,
+        'real_age' => $real_age,
+        'nationality' => $nationality,
+        'character_name' => $character_name,
+        'character_age' => $character_age,
+        'character_type' => $character_type,
+        'rp_experience' => $rp_experience,
+        'character_story_length' => strlen($character_story),
+        'story_lines' => count($non_empty_lines)
+    ]
+];
+
+// Create logs directory if it doesn't exist
+if (!file_exists('logs')) {
+    mkdir('logs', 0755, true);
+}
+
+// Log to file (optional - uncomment if you want to keep local logs)
+// file_put_contents('logs/whitelist_applications.log', json_encode($log_entry) . "\n", FILE_APPEND | LOCK_EX);
+
+// Store application in session for confirmation page
 $_SESSION['application_submitted'] = [
     'timestamp' => time(),
     'character_name' => $character_name,
-    'discord_id' => $user['id']
+    'discord_id' => $user['id'],
+    'real_name' => $real_name,
+    'nationality' => $nationality,
+    'character_type' => $character_type,
+    'rp_experience' => $rp_experience
 ];
 
 // Clear form data
