@@ -105,7 +105,7 @@ body {
 }
 
 .hero-subtitle {
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 20px rgb(47, 0, 255, 0.8);
     letter-spacing: 2px;
 }
 
@@ -170,7 +170,7 @@ body {
 }
 
 .hero-buttons .text-muted {
-    color: rgba(255, 255, 255, 0.7) !important;
+    color: #ffffff !important;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     font-size: 0.9em;
 }
@@ -543,7 +543,7 @@ body {
 }
 
 .footer-description {
-    color: #e0e0e0;
+    color: #ffffff;
     line-height: 1.6;
     margin-bottom: 1.5rem;
 }
