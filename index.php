@@ -35,6 +35,9 @@ session_start();
                         <a class="nav-link" href="#server-status"><i class="fas fa-server me-1"></i> Server Status</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="forum.php"><i class="fas fa-comments me-1"></i> Forum</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#whitelist"><i class="fas fa-user-plus me-1"></i> Whitelist</a>
                     </li>
                 </ul>
