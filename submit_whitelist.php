@@ -73,9 +73,9 @@ if (empty($character_story)) {
     $errors[] = 'Character backstory is required';
 }
 
-// Check if story has at least 500 characters
-if (strlen($character_story) < 500) {
-    $errors[] = 'Character backstory must be at least 500 characters long';
+// Check if story has at least 250 characters
+if (strlen($character_story) < 250) {
+    $errors[] = 'Character backstory must be at least 250 characters long';
 }
 
 // Check if story has at least 5 lines
@@ -197,6 +197,50 @@ $log_entry = [
         'story_lines' => count($non_empty_lines)
     ]
 ];
+
+// Create data directory if it doesn't exist
+if (!file_exists('data')) {
+    mkdir('data', 0755, true);
+}
+
+// Save application to JSON file for admin panel
+$application_data = [
+    'timestamp' => date('Y-m-d H:i:s'),
+    'status' => 'pending',
+    'discord_user' => [
+        'id' => $user['id'],
+        'username' => $user['username'],
+        'global_name' => $user['global_name'] ?? null,
+        'avatar' => $user['avatar'] ?? null
+    ],
+    'application_data' => [
+        'real_name' => $real_name,
+        'real_age' => $real_age,
+        'nationality' => $nationality,
+        'character_name' => $character_name,
+        'character_age' => $character_age,
+        'character_type' => $character_type,
+        'rp_experience' => $rp_experience,
+        'character_story' => $character_story
+    ]
+];
+
+// Load existing applications
+$applications_file = 'data/applications.json';
+$applications = [];
+if (file_exists($applications_file)) {
+    $existing_data = json_decode(file_get_contents($applications_file), true);
+    if ($existing_data) {
+        $applications = $existing_data;
+    }
+}
+
+// Generate unique ID for this application
+$application_id = uniqid('app_', true);
+$applications[$application_id] = $application_data;
+
+// Save updated applications
+file_put_contents($applications_file, json_encode($applications, JSON_PRETTY_PRINT));
 
 // Create logs directory if it doesn't exist
 if (!file_exists('logs')) {
