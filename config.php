@@ -49,8 +49,9 @@ return [
     'bot' => [
         // Discord bot token for sending DMs and mentions (loaded from .env file)
         'token' => $_ENV['DISCORD_BOT_TOKEN'] ?? 'YOUR_BOT_TOKEN_HERE',
-        'guild_id' => $_ENV['DISCORD_GUILD_ID'] ?? 'YOUR_GUILD_ID_HERE',
-        'channel_id' => $_ENV['DISCORD_CHANNEL_ID'] ?? null // Optional channel for mentions
+        'guild_id' => '1303802817479446568', // Las Vegas RP Guild ID
+        'channel_id' => $_ENV['DISCORD_CHANNEL_ID'] ?? null, // Optional channel for mentions
+        'whitelist_role_id' => '1389416811006660764' // Role to give when whitelist is accepted
     ],
     
     'admins' => [
