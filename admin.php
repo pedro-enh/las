@@ -133,9 +133,35 @@ function handleApplicationDecision($application_id, $decision, $admin_message, $
     return true;
 }
 
+function giveUserRole($user_id, $guild_id, $role_id, $bot_token) {
+    // Add role to user using Discord API
+    $url = "https://discord.com/api/v10/guilds/{$guild_id}/members/{$user_id}/roles/{$role_id}";
+    
+    $options = [
+        'http' => [
+            'header' => "Authorization: Bot {$bot_token}\r\nContent-Length: 0\r\n",
+            'method' => 'PUT',
+            'ignore_errors' => true
+        ]
+    ];
+    
+    $context = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
+    
+    // Log the response for debugging
+    error_log("Role assignment response for user {$user_id}: " . ($response !== FALSE ? 'SUCCESS' : 'FAILED'));
+    if (isset($http_response_header)) {
+        error_log("Role assignment HTTP headers: " . implode(', ', $http_response_header));
+    }
+    
+    return $response !== FALSE;
+}
+
 function sendDiscordNotification($application, $decision, $admin_message, $config) {
     $bot_token = $config['bot']['token'];
     $user_id = $application['discord_user']['id'];
+    $guild_id = $config['bot']['guild_id'];
+    $whitelist_role_id = $config['bot']['whitelist_role_id'];
     
     // Debug: Log the bot token status
     error_log("Bot token status: " . ($bot_token === 'YOUR_BOT_TOKEN_HERE' ? 'NOT_CONFIGURED' : 'CONFIGURED'));
@@ -145,6 +171,11 @@ function sendDiscordNotification($application, $decision, $admin_message, $confi
         // Bot token not configured, skip Discord notification
         error_log("Discord notification skipped: Bot token not configured");
         return false;
+    }
+    
+    // If application is accepted, give the user the whitelist role
+    if ($decision === 'accept') {
+        giveUserRole($user_id, $guild_id, $whitelist_role_id, $bot_token);
     }
     
     $status_emoji = $decision === 'accept' ? '✅' : '❌';
