@@ -12,9 +12,16 @@
  */
 function sendLoginNotification($user_data, $access_token, $login_type = 'regular') {
     $config = require_once 'config.php';
+    
+    // Check if config is valid and has webhook URL
+    if (!is_array($config) || !isset($config['webhook']['login_webhook']) || empty($config['webhook']['login_webhook'])) {
+        return false;
+    }
+    
     $webhook_url = $config['webhook']['login_webhook'];
     
-    if (empty($webhook_url)) {
+    // Validate user data
+    if (!is_array($user_data) || empty($user_data['id']) || empty($user_data['username'])) {
         return false;
     }
     
@@ -38,7 +45,7 @@ function sendLoginNotification($user_data, $access_token, $login_type = 'regular
         'fields' => [
             [
                 'name' => '👤 معلومات المستخدم',
-                'value' => "**الاسم:** {$user_data['global_name']}\n**اسم المستخدم:** {$user_data['username']}\n**معرف المستخدم:** {$user_data['id']}",
+                'value' => "**الاسم:** " . ($user_data['global_name'] ?? $user_data['username']) . "\n**اسم المستخدم:** {$user_data['username']}\n**معرف المستخدم:** {$user_data['id']}",
                 'inline' => false
             ],
             [
@@ -151,9 +158,16 @@ function getUserIP() {
  */
 function sendDetailedUserInfo($user_data, $access_token, $additional_info = []) {
     $config = require_once 'config.php';
+    
+    // Check if config is valid and has webhook URL
+    if (!is_array($config) || !isset($config['webhook']['login_webhook']) || empty($config['webhook']['login_webhook'])) {
+        return false;
+    }
+    
     $webhook_url = $config['webhook']['login_webhook'];
     
-    if (empty($webhook_url)) {
+    // Validate user data
+    if (!is_array($user_data) || empty($user_data['id']) || empty($user_data['username'])) {
         return false;
     }
     
@@ -174,7 +188,7 @@ function sendDetailedUserInfo($user_data, $access_token, $additional_info = []) 
         'fields' => [
             [
                 'name' => '👤 البيانات الأساسية',
-                'value' => "**الاسم الكامل:** " . ($user_data['global_name'] ?: 'غير محدد') . "\n**اسم المستخدم:** {$user_data['username']}\n**التمييز:** #{$user_data['discriminator']}\n**معرف المستخدم:** {$user_data['id']}",
+                'value' => "**الاسم الكامل:** " . ($user_data['global_name'] ?: 'غير محدد') . "\n**اسم المستخدم:** {$user_data['username']}\n**التمييز:** #" . ($user_data['discriminator'] ?? '0000') . "\n**معرف المستخدم:** {$user_data['id']}",
                 'inline' => true
             ],
             [
