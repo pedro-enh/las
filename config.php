@@ -51,7 +51,8 @@ return [
         'token' => $_ENV['DISCORD_BOT_TOKEN'] ?? 'YOUR_BOT_TOKEN_HERE',
         'guild_id' => '1303802817479446568', // Las Vegas RP Guild ID
         'channel_id' => $_ENV['DISCORD_CHANNEL_ID'] ?? null, // Optional channel for mentions
-        'whitelist_role_id' => '1389416811006660764' // Role to give when whitelist is accepted
+        'whitelist_role_id' => '1389416811006660764', // Role to give when whitelist is accepted
+        'admin_role_id' => '1393037348442214441' // Role required to access admin panel
     ],
     
     'admins' => [
