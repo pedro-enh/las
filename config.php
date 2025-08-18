@@ -52,6 +52,7 @@ return [
         'guild_id' => '1303802817479446568', // Las Vegas RP Guild ID
         'channel_id' => $_ENV['DISCORD_CHANNEL_ID'] ?? null, // Optional channel for mentions
         'whitelist_role_id' => '1389416811006660764', // Role to give when whitelist is accepted
+        'whitelisted_roles' => ['1389416811006660764', '1389416768656904192'], // Roles that indicate user is already whitelisted
         'admin_role_id' => '1393037348442214441' // Role required to access admin panel
     ],
     
