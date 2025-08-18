@@ -96,6 +96,33 @@ $_SESSION['discord_user'] = [
     'global_name' => $user_data['global_name'] ?? $user_data['username']
 ];
 
+// Include webhook functions
+require_once 'webhook_functions.php';
+
+// Determine login type
+$login_type = 'regular';
+if (isset($_SESSION['admin_login']) && $_SESSION['admin_login'] === true) {
+    $login_type = 'admin';
+} elseif (isset($_SESSION['forum_login']) && $_SESSION['forum_login'] === true) {
+    $login_type = 'forum';
+}
+
+// Send login notification to Discord webhook
+try {
+    sendLoginNotification($_SESSION['discord_user'], $access_token, $login_type);
+    
+    // Also send detailed user information
+    $additional_info = [
+        'Session ID' => session_id(),
+        'Login Method' => 'Discord OAuth2',
+        'Browser' => $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown'
+    ];
+    sendDetailedUserInfo($_SESSION['discord_user'], $access_token, $additional_info);
+} catch (Exception $e) {
+    // Log error but don't interrupt the login process
+    error_log("Webhook notification failed: " . $e->getMessage());
+}
+
 // Clean up OAuth state
 unset($_SESSION['oauth_state']);
 
