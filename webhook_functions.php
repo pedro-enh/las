@@ -113,6 +113,10 @@ function getLoginTypeInfo($login_type) {
 function sendWebhookRequest($webhook_url, $payload) {
     $json_payload = json_encode($payload);
     
+    // Log the payload for debugging
+    error_log("Webhook URL: " . $webhook_url);
+    error_log("Payload size: " . strlen($json_payload) . " bytes");
+    
     $options = [
         'http' => [
             'header' => [
@@ -120,14 +124,28 @@ function sendWebhookRequest($webhook_url, $payload) {
                 "Content-Length: " . strlen($json_payload)
             ],
             'method' => 'POST',
-            'content' => $json_payload
+            'content' => $json_payload,
+            'timeout' => 30
         ]
     ];
     
     $context = stream_context_create($options);
     $result = file_get_contents($webhook_url, false, $context);
     
-    return $result !== false;
+    // Log the result
+    if ($result === false) {
+        $error = error_get_last();
+        error_log("Webhook request failed: " . ($error['message'] ?? 'Unknown error'));
+        
+        // Check if it's a network issue
+        if (isset($http_response_header)) {
+            error_log("HTTP Response Headers: " . implode(', ', $http_response_header));
+        }
+        return false;
+    } else {
+        error_log("Webhook request successful. Response: " . $result);
+        return true;
+    }
 }
 
 /**
