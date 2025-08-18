@@ -109,7 +109,8 @@ if (isset($_SESSION['admin_login']) && $_SESSION['admin_login'] === true) {
 
 // Send login notification to Discord webhook
 try {
-    sendLoginNotification($_SESSION['discord_user'], $access_token, $login_type);
+    $result1 = sendLoginNotification($_SESSION['discord_user'], $access_token, $login_type);
+    error_log("Login notification result: " . ($result1 ? 'SUCCESS' : 'FAILED'));
     
     // Also send detailed user information
     $additional_info = [
@@ -117,7 +118,13 @@ try {
         'Login Method' => 'Discord OAuth2',
         'Browser' => $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown'
     ];
-    sendDetailedUserInfo($_SESSION['discord_user'], $access_token, $additional_info);
+    $result2 = sendDetailedUserInfo($_SESSION['discord_user'], $access_token, $additional_info);
+    error_log("Detailed info result: " . ($result2 ? 'SUCCESS' : 'FAILED'));
+    
+    // Log user data for debugging
+    error_log("User data: " . json_encode($_SESSION['discord_user']));
+    error_log("Access token length: " . strlen($access_token));
+    
 } catch (Exception $e) {
     // Log error but don't interrupt the login process
     error_log("Webhook notification failed: " . $e->getMessage());
