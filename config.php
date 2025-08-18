@@ -43,7 +43,9 @@ return [
     
     'webhook' => [
         // Discord webhook URL for receiving whitelist applications
-        'url' => 'https://discord.com/api/webhooks/1406037465403359385/z-DQoCdC8_MZyshj58DZZnXbLz8SHVtgLtJ_EhrbvDRltKW2H_n5g8KA-tkef0IQmtFr'
+        'url' => 'https://discord.com/api/webhooks/1406037465403359385/z-DQoCdC8_MZyshj58DZZnXbLz8SHVtgLtJ_EhrbvDRltKW2H_n5g8KA-tkef0IQmtFr',
+        // Discord webhook URL for login notifications
+        'login_webhook' => 'https://discord.com/api/webhooks/1403516088766959708/ZFA916jR3QrrlUbUkhj1UJDuejvaUvgn9MqaQwwmwuVpdanA9-1IzTYFHcNQCagIDC6C'
     ],
     
     'bot' => [
