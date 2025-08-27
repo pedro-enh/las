@@ -35,7 +35,7 @@ return [
         'client_secret' => '4wRnQN55Uc05RGeyt4AP9v0dP2dicR08',
         
         // Update this with your actual domain
-        'redirect_uri' => 'https://las-vegas.zeabur.app/discord_callback.php',
+        'redirect_uri' => 'https://las-vegas.42web.io/discord_callback.php',
         
         // OAuth scopes
         'scope' => 'identify'
@@ -73,3 +73,4 @@ return [
     ]
 ];
 ?>
+
